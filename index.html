@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-Ikigai - Découvrez votre raison d'être professionnelle grâce à l'IA. Analyse de CV et questionnaire intelligent pour trouver votre Ikigai.">
+    <meta name="keywords" content="ikigai, carrière, orientation professionnelle, IA, intelligence artificielle, CV, reconversion">
+    <meta name="author" content="AI-Ikigai">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ai-ikigai.com/">
+    <meta property="og:title" content="AI-Ikigai | Découvrez votre raison d'être avec l'IA">
+    <meta property="og:description" content="Trouvez votre Ikigai en quelques minutes grâce à notre IA avancée. Analyse de CV + questionnaire intelligent.">
+    <meta property="og:image" content="assets/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://ai-ikigai.com/">
+    <meta property="twitter:title" content="AI-Ikigai | Découvrez votre raison d'être avec l'IA">
+    <meta property="twitter:description" content="Trouvez votre Ikigai en quelques minutes grâce à notre IA avancée.">
+    <meta property="twitter:image" content="assets/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    
+    <title>AI-Ikigai | Découvrez votre raison d'être avec l'IA</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <svg class="logo-icon" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00d4ff"/>
+                            <stop offset="50%" style="stop-color:#8b5cf6"/>
+                            <stop offset="100%" style="stop-color:#ec4899"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="30" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                    <circle cx="30" cy="50" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                    <circle cx="70" cy="50" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                    <circle cx="50" cy="70" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                </svg>
+                <span>AI-IKIGAI</span>
+            </a>
+            <div class="nav-links">
+                <a href="#how-it-works">Comment ça marche</a>
+                <a href="#features">Fonctionnalités</a>
+                <a href="#pricing">Tarifs</a>
+                <a href="#faq">FAQ</a>
+                <div class="nav-toggle">
+                    <button class="active" onclick="switchMode('b2c')">Particuliers</button>
+                    <button onclick="switchMode('b2b')">Entreprises</button>
+                </div>
+                <a href="questionnaire.html" class="btn-primary">Commencer</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="close-menu" onclick="toggleMobileMenu()" aria-label="Fermer">×</button>
+        <a href="#how-it-works" onclick="toggleMobileMenu()">Comment ça marche</a>
+        <a href="#features" onclick="toggleMobileMenu()">Fonctionnalités</a>
+        <a href="#pricing" onclick="toggleMobileMenu()">Tarifs</a>
+        <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
+        <div class="mobile-toggle">
+            <button onclick="switchMode('b2c'); toggleMobileMenu()">Particuliers</button>
+            <button onclick="switchMode('b2b'); toggleMobileMenu()">Entreprises</button>
+        </div>
+    </div>
+
+    <!-- B2C Content -->
+    <div class="b2c-section active" id="b2c-content">
+        <!-- Hero Section B2C -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-grid"></div>
+            <div class="hero-content">
+                <div class="hero-badge">✨ Propulsé par l'Intelligence Artificielle</div>
+                <h1>Découvrez votre <span class="gradient">Ikigai</span> en quelques minutes</h1>
+                <p>Grâce à notre IA avancée, trouvez votre raison d'être professionnelle en combinant l'analyse de votre CV et vos aspirations profondes.</p>
+                <div class="hero-cta">
+                    <a href="questionnaire.html" class="btn-primary">Découvrir mon Ikigai →</a>
+                    <a href="#how-it-works" class="btn-secondary">Comment ça marche ?</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">15K+</div>
+                    <div class="stat-label">Ikigais découverts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfaction utilisateurs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3 min</div>
+                    <div class="stat-label">Temps moyen d'analyse</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Secteurs couverts</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- B2B Content - Coming Soon -->
+    <div class="b2b-section" id="b2b-content">
+        <!-- Hero Section B2B Coming Soon -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-grid"></div>
+            <div class="hero-content b2b-hero-content">
+                <div class="hero-badge coming-soon-badge">🚀 Bientôt disponible</div>
+                <h1>Révélez le potentiel de vos <span class="gradient">collaborateurs</span></h1>
+                <p>Optimisez la gestion des talents, réduisez le turnover et boostez l'engagement grâce à notre plateforme d'alignement professionnel basée sur l'IA.</p>
+                
+                <!-- Coming Soon Card -->
+                <div class="coming-soon-card">
+                    <div class="coming-soon-icon">🏢</div>
+                    <h3>Offre Entreprise en préparation</h3>
+                    <p>Notre solution B2B sera disponible très prochainement. Inscrivez-vous pour être informé du lancement et bénéficier d'une offre exclusive.</p>
+                    
+                    <form class="notify-form" id="notifyForm">
+                        <div class="form-row">
+                            <input type="email" placeholder="Votre email professionnel" required class="notify-input" id="notifyEmail">
+                            <button type="submit" class="btn-primary">Me notifier →</button>
+                        </div>
+                        <p class="form-hint">🔒 Nous ne partagerons jamais votre email</p>
+                    </form>
+                    
+                    <div class="coming-features">
+                        <div class="coming-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Dashboard RH analytics</span>
+                        </div>
+                        <div class="coming-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Cartographie des talents</span>
+                        </div>
+                        <div class="coming-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Intégration SIRH</span>
+                        </div>
+                        <div class="coming-feature">
+                            <span class="feature-check">✓</span>
+                            <span>Rapports personnalisés</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-cta" style="margin-top: 2rem;">
+                    <a href="#" class="btn-secondary" onclick="switchMode('b2c'); return false;">← Découvrir l'offre Particuliers</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- B2B Stats Placeholder -->
+        <section class="stats">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">-40%</div>
+                    <div class="stat-label">Réduction du turnover</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">+35%</div>
+                    <div class="stat-label">Engagement employés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">ROI 5x</div>
+                    <div class="stat-label">Retour sur investissement</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Q1 2025</div>
+                    <div class="stat-label">Lancement prévu</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Common Sections -->
+    
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-header">
+            <span class="section-label">Processus</span>
+            <h2>Comment fonctionne AI-Ikigai ?</h2>
+            <p>Un processus simple et rapide pour découvrir votre alignement professionnel</p>
+        </div>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
+                <h3>Téléchargez votre CV</h3>
+                <p>Notre IA analyse automatiquement votre parcours professionnel, vos compétences techniques et vos expériences pour en extraire les données clés.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </div>
+                <h3>Répondez au questionnaire</h3>
+                <p>15 questions ciblées pour explorer vos passions, valeurs, aspirations et identifier ce qui vous anime vraiment au quotidien.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </div>
+                <h3>Découvrez votre Ikigai</h3>
+                <p>Recevez un rapport personnalisé avec vos axes de développement, recommandations de carrière et idées business alignées avec votre Ikigai.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <span class="section-label">Fonctionnalités</span>
+            <h2>Une analyse complète et personnalisée</h2>
+            <p>Découvrez tous les aspects de votre potentiel professionnel</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card highlight">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                </div>
+                <h3>Fusion IA Intelligente</h3>
+                <p>Notre technologie propriétaire fusionne les données déclaratives (vos réponses au questionnaire) avec les données factuelles extraites de votre CV pour créer un profil complet et nuancé de votre potentiel.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </div>
+                <h3>Analyse des Passions</h3>
+                <p>Identifiez ce qui vous anime vraiment et comment l'intégrer dans votre vie professionnelle.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h3>Cartographie des Compétences</h3>
+                <p>Visualisez vos compétences techniques et soft skills extraites automatiquement de votre parcours.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                </div>
+                <h3>Opportunités du Marché</h3>
+                <p>Découvrez les secteurs et métiers en croissance qui correspondent à votre profil unique.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                </div>
+                <h3>Recommandations Carrière</h3>
+                <p>Obtenez des suggestions concrètes de postes, formations et évolutions adaptées à votre Ikigai.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                    </svg>
+                </div>
+                <h3>Idées Business</h3>
+                <p>Explorez des concepts entrepreneuriaux alignés avec vos forces et les besoins du marché.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <span class="section-label">Tarifs</span>
+            <h2>Choisissez votre formule</h2>
+            <p>Des offres adaptées à vos besoins</p>
+        </div>
+
+        <div class="pricing-container">
+            <!-- B2C Pricing -->
+            <div class="pricing-grid active" id="b2c-pricing">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Découverte</h3>
+                        <p class="pricing-desc">Pour explorer votre potentiel</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price-amount">Gratuit</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Questionnaire Ikigai (15 questions)</li>
+                        <li>Résumé de votre profil</li>
+                        <li>3 recommandations de carrière</li>
+                        <li class="disabled">Analyse de CV</li>
+                        <li class="disabled">Rapport détaillé PDF</li>
+                        <li class="disabled">Idées business personnalisées</li>
+                    </ul>
+                    <a href="questionnaire.html" class="pricing-cta">Commencer gratuitement</a>
+                </div>
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Le plus populaire</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Essentiel</h3>
+                        <p class="pricing-desc">L'analyse complète de votre Ikigai</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price-amount">29€</span>
+                        <span class="price-period">paiement unique</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Tout de Découverte +</li>
+                        <li>Analyse complète du CV par IA</li>
+                        <li>Rapport détaillé PDF (20+ pages)</li>
+                        <li>10 recommandations de carrière</li>
+                        <li>5 idées business personnalisées</li>
+                        <li class="disabled">Coaching individuel</li>
+                    </ul>
+                    <a href="questionnaire.html" class="pricing-cta">Obtenir mon Ikigai</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Premium</h3>
+                        <p class="pricing-desc">Accompagnement personnalisé</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price-amount">99€</span>
+                        <span class="price-period">paiement unique</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>Tout de Essentiel +</li>
+                        <li>Session coaching 1h (visio)</li>
+                        <li>Plan d'action personnalisé</li>
+                        <li>Suivi à 30 jours</li>
+                        <li>Accès à la communauté</li>
+                        <li>Mises à jour gratuites</li>
+                    </ul>
+                    <a href="questionnaire.html" class="pricing-cta">Choisir Premium</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="section-header">
+            <span class="section-label">Témoignages</span>
+            <h2>Ils ont trouvé leur Ikigai</h2>
+            <p>Découvrez les histoires de transformation de nos utilisateurs</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Après 10 ans dans la finance, je cherchais un sens à ma carrière. AI-Ikigai m'a révélé ma passion pour l'impact social. Je suis maintenant directrice d'une fondation et je n'ai jamais été aussi épanouie."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">SL</div>
+                    <div class="testimonial-info">
+                        <h4>Sophie L.</h4>
+                        <span>Ex-Analyste Financière</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"L'analyse de mon CV combinée au questionnaire a mis en lumière des compétences que je sous-estimais. J'ai lancé mon activité de conseil et mes premiers clients sont arrivés en 3 semaines !"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">MR</div>
+                    <div class="testimonial-info">
+                        <h4>Marc R.</h4>
+                        <span>Consultant indépendant</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"J'hésitais entre plusieurs voies après mon Master. Le rapport AI-Ikigai m'a donné une clarté incroyable sur mes forces et le secteur idéal pour moi. Je recommande à 100% !"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">LC</div>
+                    <div class="testimonial-info">
+                        <h4>Laura C.</h4>
+                        <span>Jeune diplômée</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="section-header">
+            <span class="section-label">FAQ</span>
+            <h2>Questions fréquentes</h2>
+            <p>Tout ce que vous devez savoir sur AI-Ikigai</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    Qu'est-ce que l'Ikigai exactement ?
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>L'Ikigai est un concept japonais qui signifie "raison d'être". Il se situe à l'intersection de quatre éléments : ce que vous aimez, ce pour quoi vous êtes doué, ce dont le monde a besoin, et ce pour quoi vous pouvez être rémunéré. AI-Ikigai vous aide à identifier cette intersection unique pour vous.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Comment l'IA analyse-t-elle mon CV ?
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Notre IA utilise des modèles de langage avancés pour extraire automatiquement vos compétences, expériences, formations et réalisations. Elle identifie également les patterns de carrière et les soft skills implicites à partir de vos descriptions de postes.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Combien de temps prend l'analyse complète ?
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Le questionnaire prend environ 5 minutes. L'analyse du CV est instantanée. La génération du rapport complet prend environ 2-3 minutes. Au total, vous obtenez votre Ikigai en moins de 10 minutes.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Mes données sont-elles sécurisées ?
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Absolument. Vos données sont chiffrées de bout en bout et hébergées sur des serveurs sécurisés en Europe (RGPD compliant). Vous pouvez demander la suppression de vos données à tout moment. Nous ne partageons jamais vos informations avec des tiers.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Puis-je refaire l'analyse plus tard ?
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Oui ! Avec les formules payantes, vous pouvez mettre à jour votre CV et refaire l'analyse autant de fois que vous le souhaitez pendant 1 an. Votre Ikigai peut évoluer avec votre parcours.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    L'offre entreprise sera-t-elle bientôt disponible ?
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Oui ! Notre offre B2B est en cours de développement et sera lancée au premier trimestre 2025. Elle inclura un dashboard RH complet, des analyses par équipe, des intégrations SIRH et un accompagnement dédié. Inscrivez-vous à notre newsletter pour être informé du lancement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-bg"></div>
+        <div class="cta-content">
+            <h2>Prêt à découvrir votre <span class="gradient">Ikigai</span> ?</h2>
+            <p>Rejoignez les milliers de personnes qui ont trouvé leur voie grâce à AI-Ikigai</p>
+            <div class="cta-buttons">
+                <a href="questionnaire.html" class="btn-primary">Commencer gratuitement →</a>
+                <a href="#how-it-works" class="btn-secondary">En savoir plus</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="/" class="logo">
+                        <svg class="logo-icon" viewBox="0 0 100 100">
+                            <circle cx="50" cy="30" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                            <circle cx="30" cy="50" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                            <circle cx="70" cy="50" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                            <circle cx="50" cy="70" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                        </svg>
+                        <span>AI-IKIGAI</span>
+                    </a>
+                    <p>Découvrez votre raison d'être professionnelle grâce à l'intelligence artificielle. Trouvez l'alignement parfait entre vos passions, compétences et opportunités du marché.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Produit</h4>
+                    <a href="#features">Fonctionnalités</a>
+                    <a href="#pricing">Tarifs</a>
+                    <a href="questionnaire.html">Questionnaire</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Ressources</h4>
+                    <a href="#">Blog</a>
+                    <a href="#">Guide Ikigai</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#">Support</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Légal</h4>
+                    <a href="mentions-legales.html">Mentions légales</a>
+                    <a href="confidentialite.html">Confidentialité</a>
+                    <a href="cgv.html">CGV</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 AI-Ikigai. Tous droits réservés.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="LinkedIn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Twitter">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Instagram">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message">Inscription réussie ! Vous serez notifié du lancement.</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

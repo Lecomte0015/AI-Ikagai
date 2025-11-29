@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez votre Ikigai en répondant à notre questionnaire intelligent. 15 questions pour révéler votre raison d'être professionnelle.">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    
+    <title>Questionnaire Ikigai | AI-Ikigai</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/questionnaire.css">
+</head>
+<body>
+    <div class="bg-effects"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00d4ff"/>
+                            <stop offset="50%" style="stop-color:#8b5cf6"/>
+                            <stop offset="100%" style="stop-color:#ec4899"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="30" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                    <circle cx="30" cy="50" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                    <circle cx="70" cy="50" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                    <circle cx="50" cy="70" r="20" fill="none" stroke="url(#grad1)" stroke-width="2"/>
+                </svg>
+                <span>AI-IKIGAI</span>
+            </a>
+            <div class="header-right">
+                <div class="save-progress">
+                    <div class="save-dot"></div>
+                    <span>Progression sauvegardée</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Progress Section -->
+        <div class="progress-section" id="progress-section">
+            <div class="progress-header">
+                <span class="progress-text">Question <strong id="current-q">1</strong> sur <strong>15</strong></span>
+                <span class="progress-percentage" id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="category-pills">
+                <div class="category-pill active" data-category="passion">
+                    <span class="icon">❤️</span>
+                    <span>Passions</span>
+                </div>
+                <div class="category-pill" data-category="talent">
+                    <span class="icon">⭐</span>
+                    <span>Talents</span>
+                </div>
+                <div class="category-pill" data-category="values">
+                    <span class="icon">🎯</span>
+                    <span>Valeurs</span>
+                </div>
+                <div class="category-pill" data-category="market">
+                    <span class="icon">💼</span>
+                    <span>Marché</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Questions Container -->
+        <div id="questions-container">
+            <!-- Questions will be rendered here by JavaScript -->
+        </div>
+
+        <!-- CV Upload Section -->
+        <div class="cv-upload-section" id="cv-upload-section">
+            <div class="question-card">
+                <div class="question-meta">
+                    <span class="question-category">
+                        <span>📄</span>
+                        Analyse CV
+                    </span>
+                </div>
+                <h2 class="question-text">Téléchargez votre CV pour une analyse complète</h2>
+                <p class="question-hint">Notre IA analysera votre parcours pour enrichir votre profil Ikigai avec des données factuelles.</p>
+
+                <div class="upload-zone" id="upload-zone">
+                    <div class="upload-icon">📄</div>
+                    <h3 class="upload-title">Glissez-déposez votre CV ici</h3>
+                    <p class="upload-subtitle">ou cliquez pour parcourir vos fichiers</p>
+                    <button class="upload-btn" type="button">
+                        <span>📁</span>
+                        Choisir un fichier
+                    </button>
+                    <p class="upload-formats">Formats acceptés : PDF, DOCX, DOC • Max 10 Mo</p>
+                </div>
+
+                <input type="file" id="cv-input" accept=".pdf,.doc,.docx">
+
+                <div class="file-preview" id="file-preview">
+                    <div class="file-icon">📄</div>
+                    <div class="file-info">
+                        <div class="file-name" id="file-name">document.pdf</div>
+                        <div class="file-size" id="file-size">2.4 Mo</div>
+                    </div>
+                    <button class="file-remove" id="file-remove" type="button">×</button>
+                </div>
+
+                <div class="cv-optional">
+                    <span>💡</span>
+                    <span>Cette étape est optionnelle mais recommandée pour une analyse plus précise.</span>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="goToPreviousQuestion()">
+                        ← Retour
+                    </button>
+                    <button class="btn btn-next" onclick="startAnalysis()">
+                        Analyser mon profil →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analyzing Section -->
+        <div class="analyzing-section" id="analyzing-section">
+            <div class="analyzing-animation">
+                <div class="analyzing-circles">
+                    <div class="analyzing-circle"></div>
+                    <div class="analyzing-circle"></div>
+                    <div class="analyzing-circle"></div>
+                </div>
+                <div class="analyzing-icon">🧠</div>
+            </div>
+            <h2 class="analyzing-title">Analyse en cours...</h2>
+            <p class="analyzing-subtitle">Notre IA fusionne vos réponses avec les données de votre CV</p>
+            
+            <div class="analyzing-steps">
+                <div class="analyzing-step" id="step-1">
+                    <div class="step-indicator">1</div>
+                    <span class="step-text">Analyse des réponses au questionnaire</span>
+                </div>
+                <div class="analyzing-step" id="step-2">
+                    <div class="step-indicator">2</div>
+                    <span class="step-text">Extraction des données du CV</span>
+                </div>
+                <div class="analyzing-step" id="step-3">
+                    <div class="step-indicator">3</div>
+                    <span class="step-text">Fusion des informations</span>
+                </div>
+                <div class="analyzing-step" id="step-4">
+                    <div class="step-indicator">4</div>
+                    <span class="step-text">Génération de votre Ikigai</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="results-section">
+            <div class="results-header">
+                <div class="results-badge">
+                    <span>✨</span>
+                    Analyse complétée
+                </div>
+                <h1 class="results-title">Voici votre <span class="gradient">Ikigai</span></h1>
+                <p class="results-subtitle">Basé sur vos réponses et l'analyse de votre parcours</p>
+            </div>
+
+            <!-- Ikigai Diagram -->
+            <div class="ikigai-diagram">
+                <div class="ikigai-circle passion">Ce que vous AIMEZ</div>
+                <div class="ikigai-circle mission">Ce dont le monde a BESOIN</div>
+                <div class="ikigai-circle vocation">Ce pour quoi vous pouvez être PAYÉ</div>
+                <div class="ikigai-circle profession">Ce pour quoi vous êtes DOUÉ</div>
+                <div class="ikigai-center">VOTRE IKIGAI</div>
+            </div>
+
+            <!-- Result Cards -->
+            <div class="result-cards">
+                <div class="result-card passion">
+                    <div class="result-card-icon">❤️</div>
+                    <h3>Vos Passions</h3>
+                    <p>Vous êtes animé par la créativité, l'innovation technologique et l'accompagnement des autres vers leur réussite.</p>
+                    <div class="result-tags">
+                        <span class="result-tag">Créativité</span>
+                        <span class="result-tag">Innovation</span>
+                        <span class="result-tag">Mentorat</span>
+                    </div>
+                </div>
+                <div class="result-card profession">
+                    <div class="result-card-icon">⭐</div>
+                    <h3>Vos Talents</h3>
+                    <p>Vos forces résident dans la résolution de problèmes complexes, la communication et la gestion de projets.</p>
+                    <div class="result-tags">
+                        <span class="result-tag">Problem-solving</span>
+                        <span class="result-tag">Communication</span>
+                        <span class="result-tag">Leadership</span>
+                    </div>
+                </div>
+                <div class="result-card mission">
+                    <div class="result-card-icon">🌍</div>
+                    <h3>Votre Mission</h3>
+                    <p>Contribuer à un monde où la technologie sert l'humain et permet à chacun de s'épanouir professionnellement.</p>
+                    <div class="result-tags">
+                        <span class="result-tag">Impact social</span>
+                        <span class="result-tag">Éducation</span>
+                        <span class="result-tag">Tech for Good</span>
+                    </div>
+                </div>
+                <div class="result-card vocation">
+                    <div class="result-card-icon">💼</div>
+                    <h3>Votre Vocation</h3>
+                    <p>Les secteurs de la formation, du conseil en transformation digitale et de l'entrepreneuriat social correspondent à votre profil.</p>
+                    <div class="result-tags">
+                        <span class="result-tag">Formation</span>
+                        <span class="result-tag">Conseil</span>
+                        <span class="result-tag">Startup</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="recommendations">
+                <h3>🎯 Recommandations de carrière</h3>
+                <div class="recommendation-item">
+                    <div class="recommendation-number">1</div>
+                    <div class="recommendation-content">
+                        <h4>Chief Learning Officer (CLO)</h4>
+                        <p>Dirigez la stratégie de formation d'une entreprise tech, combinant votre expertise pédagogique et technologique.</p>
+                    </div>
+                </div>
+                <div class="recommendation-item">
+                    <div class="recommendation-number">2</div>
+                    <div class="recommendation-content">
+                        <h4>Fondateur d'une EdTech</h4>
+                        <p>Créez une startup qui démocratise l'accès à l'apprentissage grâce à l'IA et aux nouvelles technologies.</p>
+                    </div>
+                </div>
+                <div class="recommendation-item">
+                    <div class="recommendation-number">3</div>
+                    <div class="recommendation-content">
+                        <h4>Consultant en Transformation Digitale</h4>
+                        <p>Accompagnez les organisations dans leur transition numérique avec une approche centrée sur l'humain.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upgrade CTA -->
+            <div class="upgrade-cta">
+                <div class="upgrade-content">
+                    <h3>🚀 Débloquez votre rapport complet</h3>
+                    <p>Obtenez 20+ pages d'analyse détaillée, 10 recommandations de carrière et 5 idées business personnalisées.</p>
+                    <ul class="upgrade-features">
+                        <li>✓ Analyse approfondie de votre CV</li>
+                        <li>✓ Plan d'action personnalisé</li>
+                        <li>✓ Export PDF professionnel</li>
+                    </ul>
+                </div>
+                <div class="upgrade-pricing">
+                    <div class="upgrade-price">29€</div>
+                    <div class="upgrade-period">paiement unique</div>
+                    <button class="btn-primary">Obtenir le rapport complet →</button>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="results-cta">
+                <a href="index.html" class="btn-secondary">
+                    <span>←</span>
+                    Retour à l'accueil
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/questionnaire.js"></script>
+</body>
+</html>
