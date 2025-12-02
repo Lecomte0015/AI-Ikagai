@@ -10,8 +10,7 @@
 // ============================================
 
 const API_CONFIG = {
-    // URL de l'API backend
-    // En production, remplacez par votre URL
+    // ✅ URL CORRIGÉE - Votre Worker Cloudflare
     baseUrl: 'https://ai-ikagai.dallyhermann-71e.workers.dev',
     
     // En développement local, décommentez cette ligne :
