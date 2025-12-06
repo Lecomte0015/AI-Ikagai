@@ -1,5 +1,6 @@
 /**
  * AI-IKIGAI - Main JavaScript
+ * VERSION AVEC SECTION COACH
  */
 
 // DOM Elements
@@ -27,26 +28,30 @@ function toggleMobileMenu() {
     document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
 }
 
-// B2C/B2B Mode Switch
+// B2C/B2B/COACH Mode Switch - MODIFIÉ POUR 3 SECTIONS
 function switchMode(mode) {
     const b2cContent = document.getElementById('b2c-content');
     const b2bContent = document.getElementById('b2b-content');
+    const coachContent = document.getElementById('coach-content');
     const navToggleBtns = document.querySelectorAll('.nav-toggle button');
 
+    // Retirer toutes les classes active
+    b2cContent.classList.remove('active');
+    b2bContent.classList.remove('active');
+    if (coachContent) coachContent.classList.remove('active');
+    
+    navToggleBtns.forEach(btn => btn.classList.remove('active'));
+
+    // Activer la section demandée
     if (mode === 'b2c') {
         b2cContent.classList.add('active');
-        b2bContent.classList.remove('active');
-        if (navToggleBtns.length >= 2) {
-            navToggleBtns[0].classList.add('active');
-            navToggleBtns[1].classList.remove('active');
-        }
-    } else {
-        b2cContent.classList.remove('active');
+        if (navToggleBtns[0]) navToggleBtns[0].classList.add('active');
+    } else if (mode === 'b2b') {
         b2bContent.classList.add('active');
-        if (navToggleBtns.length >= 2) {
-            navToggleBtns[0].classList.remove('active');
-            navToggleBtns[1].classList.add('active');
-        }
+        if (navToggleBtns[1]) navToggleBtns[1].classList.add('active');
+    } else if (mode === 'coach') {
+        if (coachContent) coachContent.classList.add('active');
+        if (navToggleBtns[2]) navToggleBtns[2].classList.add('active');
     }
 
     // Scroll to top when switching
@@ -258,4 +263,4 @@ document.querySelectorAll('.pricing-card').forEach(card => {
 // Initialize
 // =============================================
 
-console.log('AI-Ikigai initialized');
+console.log('AI-Ikigai initialized (with Coach section)');
