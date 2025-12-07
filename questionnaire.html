@@ -2519,11 +2519,18 @@
             localStorage.removeItem('ai-ikigai-progress');
 
             // Submit to backend
-            const backendResult = await submitToBackend();
+            let backendResult = await submitToBackend();
 
-            // Upload CV if present
+            console.log('📊 Résultat initial (sans CV):', backendResult);
+
+            // Upload CV if present and get updated analysis
             if (uploadedFile) {
-                await uploadCVToBackend(uploadedFile);
+                const cvResult = await uploadCVToBackend(uploadedFile);
+                // Use CV analysis if available, otherwise keep initial
+                if (cvResult && cvResult.analysis) {
+                    backendResult = cvResult;
+                    console.log('📊 Résultat mis à jour (avec CV):', backendResult);
+                }
             }
 
             // Animate steps
@@ -2542,7 +2549,10 @@
                     currentStep++;
                     setTimeout(animateStep, 1500);
                 } else {
-                    setTimeout(() => showResults(backendResult?.analysis), 1000);
+                    // Use the final analysis (with CV if uploaded)
+                    const finalAnalysis = backendResult?.analysis;
+                    console.log('🎯 Analyse finale envoyée à showResults:', finalAnalysis);
+                    setTimeout(() => showResults(finalAnalysis), 1000);
                 }
             }
 
