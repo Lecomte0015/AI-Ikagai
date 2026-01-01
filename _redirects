@@ -1,0 +1,7 @@
+# Cloudflare Pages Redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
+
+/home       /           301
+/accueil    /           301
+/quiz       /questionnaire.html  301
+/test       /questionnaire.html  301
