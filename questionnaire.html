@@ -1613,6 +1613,8 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
     <script>
         /**
          * AI-IKIGAI - API Configuration & Client
@@ -1787,10 +1789,13 @@
 
         const QuestionnaireAPI = {
             // Soumettre les réponses
-            async submit(answers, email = null) {
+            async submit(answers, email = null, userId = null) {
                 const body = { answers };
                 if (email) {
                     body.email = email;
+                }
+                if (userId) {
+                    body.user_id = userId;
                 }
                 const data = await ApiClient.post('/api/questionnaire/submit', body);
 
@@ -2678,13 +2683,38 @@
         // Submit answers to backend
         async function submitToBackend() {
             try {
+                // Get authenticated user from Supabase
+                let currentUser = null;
+                let userId = null;
+                let userEmail = null;
+
+                if (typeof AuthAPI !== 'undefined') {
+                    try {
+                        currentUser = await AuthAPI.getUser();
+                        if (currentUser) {
+                            userId = currentUser.id;
+                            userEmail = currentUser.email;
+                            console.log('✅ User authenticated:', userEmail);
+                        }
+                    } catch (error) {
+                        console.warn('⚠️ Could not get authenticated user:', error);
+                    }
+                }
+
+                // Fallback to localStorage email if no authenticated user
+                if (!userEmail) {
+                    userEmail = localStorage.getItem('ai-ikigai-email');
+                }
+
                 // Check if API is available
                 if (typeof QuestionnaireAPI !== 'undefined') {
-                    const userEmail = localStorage.getItem('ai-ikigai-email');
-                    const result = await QuestionnaireAPI.submit(answers, userEmail);
+                    // Send answers with user_id and email
+                    const result = await QuestionnaireAPI.submit(answers, userEmail, userId);
 
                     if (result.success) {
                         console.log('✅ Questionnaire submitted:', result.questionnaireId);
+                        console.log('📧 Email:', userEmail);
+                        console.log('🆔 User ID:', userId);
                         return result;
                     }
                 }
