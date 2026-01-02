@@ -327,10 +327,60 @@
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Supabase Client -->
-    <script src="supabase-client.js"></script>
-
     <script>
+        // Configuration Supabase
+        const SUPABASE_CONFIG = {
+            url: 'https://gtpkzfpvqlcwnvekcxhy.supabase.co',
+            anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0cGt6ZnB2cWxjd252ZWtjeGh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyODI0MTAsImV4cCI6MjA4Mjg1ODQxMH0.Q4Y9iheI4EFAJhjH6MptiTodrypC8UIPIz4YN-rHksU'
+        };
+
+        // Initialiser Supabase
+        const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+
+        // AuthAPI
+        const AuthAPI = {
+            async signUp(email, password, name) {
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: { data: { name } }
+                });
+                if (error) throw error;
+                return data;
+            },
+
+            async signIn(email, password) {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+                if (error) throw error;
+                return data;
+            },
+
+            async getUser() {
+                const { data: { user }, error } = await supabase.auth.getUser();
+                if (error || !user) return null;
+
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single();
+
+                return { ...user, ...profile };
+            }
+        };
+
+        function redirectToDashboard(role) {
+            const dashboards = {
+                'client': 'dashboard-client.html',
+                'coach': 'dashboard-coach.html',
+                'admin': 'dashboard-admin.html',
+                'super_admin': 'dashboard-admin.html'
+            };
+            window.location.href = dashboards[role] || 'dashboard-client.html';
+        }
         // Helper functions
         function showError(message) {
             const errorDiv = document.getElementById('error-message');
