@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - AI-Ikigai</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    
+
     <style>
         * {
             margin: 0;
@@ -236,7 +237,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 480px) {
@@ -250,6 +253,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <div class="logo">
@@ -315,14 +319,14 @@
             </div>
 
             <div class="link">
-                <a href="/">Retour à l'accueil</a>
+                <a href="index.html">Retour à l'accueil</a>
             </div>
         </div>
     </div>
 
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+
     <!-- Supabase Client -->
     <script src="supabase-client.js"></script>
 
@@ -372,12 +376,12 @@
                 btn.innerHTML = '<span class="loading"></span> Connexion...';
 
                 const { user } = await AuthAPI.signIn(email, password);
-                
+
                 showSuccess('Connexion réussie ! Redirection...');
-                
+
                 // Récupérer le profil complet
                 const fullUser = await AuthAPI.getUser();
-                
+
                 // Rediriger vers le dashboard approprié
                 setTimeout(() => {
                     redirectToDashboard(fullUser.role);
@@ -412,12 +416,12 @@
                 btn.innerHTML = '<span class="loading"></span> Création du compte...';
 
                 await AuthAPI.signUp(email, password, name);
-                
+
                 showSuccess('Compte créé ! Vérifiez votre email pour confirmer votre inscription.');
-                
+
                 // Réinitialiser le formulaire
                 document.getElementById('signup-form').reset();
-                
+
                 // Basculer vers la connexion après 2 secondes
                 setTimeout(() => {
                     switchTab('login');
@@ -433,4 +437,5 @@
         }
     </script>
 </body>
+
 </html>
