@@ -56,7 +56,7 @@ const AuthAPI = {
         if (error || !user) return null;
 
         // Récupérer le profil avec le rôle
-        const { data: profile } = await supabase
+        const { data: profile } = await supabaseClient
             .from('profiles')
             .select('*')
             .eq('id', user.id)
