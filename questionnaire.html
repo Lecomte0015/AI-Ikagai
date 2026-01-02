@@ -2594,7 +2594,14 @@
 
         // Show Results
         function showResults(backendAnalysis = null) {
+            // Hide all questionnaire sections
+            introSection.classList.remove('active');
+            questionsSection.classList.remove('active');
+            cvUploadSection.classList.remove('active');
+            progressSection.style.display = 'none';
             analyzingSection.classList.remove('active');
+
+            // Show only results section
             resultsSection.classList.add('active');
 
             // If we have backend analysis, update the displayed results
