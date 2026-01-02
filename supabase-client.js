@@ -162,7 +162,7 @@ async function checkAuth(requiredRole = null) {
 
     if (!user) {
         // Rediriger vers login
-        window.location.href = 'login.html';
+        window.location.href = 'auth.html';
         return null;
     }
 
