@@ -153,6 +153,7 @@
         .top-bar h1 {
             font-family: 'Sora', sans-serif;
             font-size: 2rem;
+            color: var(--light);
         }
 
         .btn-new-analysis {
@@ -226,6 +227,7 @@
         .card-header h2 {
             font-family: 'Sora', sans-serif;
             font-size: 1.5rem;
+            color: var(--light);
         }
 
         .ikigai-chart-container {
@@ -497,6 +499,9 @@
 
             // Charger les données du dashboard
             await loadDashboardData();
+
+            // Ajouter les event listeners pour la navigation
+            setupNavigation();
         })();
 
         function displayUserInfo() {
@@ -679,6 +684,25 @@
             if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
                 await AuthAPI.signOut();
             }
+        }
+
+        function setupNavigation() {
+            const navItems = document.querySelectorAll('.nav-item[data-section]');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const section = item.dataset.section;
+
+                    // Mettre à jour l'item actif
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+
+                    // Pour l'instant, juste un log
+                    // TODO: Implémenter l'affichage des différentes sections
+                    console.log('Navigation vers:', section);
+                });
+            });
         }
     </script>
 </body>
