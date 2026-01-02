@@ -828,8 +828,8 @@
             `;
         }
 
-        function displayHistory(analyses) {
-            const container = document.getElementById('history-list');
+        function displayHistory(analyses, containerId = 'history-list') {
+            const container = document.getElementById(containerId);
 
             if (!analyses || analyses.length === 0) {
                 return;
