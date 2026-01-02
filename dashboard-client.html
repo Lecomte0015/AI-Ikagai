@@ -856,9 +856,25 @@
             }).join('');
         }
 
-        function viewAnalysis(id) {
-            // Rediriger vers la page de résultats avec l'ID
-            window.location.href = `questionnaire.html?result=${id}`;
+        async function viewAnalysis(id) {
+            try {
+                // Récupérer les détails de l'analyse
+                const response = await fetch(`https://ai-ikagai.dallyhermann-71e.workers.dev/api/questionnaire/${id}`);
+                const data = await response.json();
+
+                if (data.success && data.analysis) {
+                    // Stocker l'analyse dans localStorage pour la page de résultats
+                    localStorage.setItem('current-analysis', JSON.stringify(data.analysis));
+                    // Rediriger vers la page de résultats
+                    window.location.href = `questionnaire.html?result=${id}`;
+                } else {
+                    console.error('Analyse non trouvée');
+                    alert('Impossible de charger cette analyse');
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement de l\'analyse:', error);
+                alert('Erreur lors du chargement de l\'analyse');
+            }
         }
 
         async function handleLogout() {
