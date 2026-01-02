@@ -55,12 +55,20 @@ const AuthAPI = {
 
         if (error || !user) return null;
 
-        // Récupérer le profil avec le rôle
-        const { data: profile } = await supabaseClient
-            .from('profiles')
-            .select('*')
-            .eq('id', user.id)
-            .single();
+        // Récupérer le profil avec le rôle (optionnel)
+        let profile = null;
+        try {
+            const { data } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+            profile = data;
+        } catch (error) {
+            console.warn('Could not fetch profile, using default role:', error);
+            // Si pas de profil, on utilise un rôle par défaut
+            profile = { role: 'client' };
+        }
 
         return { ...user, ...profile };
     },
