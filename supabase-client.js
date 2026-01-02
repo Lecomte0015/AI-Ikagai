@@ -166,16 +166,22 @@ const DashboardAPI = {
 // ============================================
 
 async function checkAuth(requiredRole = null) {
+    console.log('🔍 checkAuth called with role:', requiredRole);
     const user = await AuthAPI.getUser();
+    console.log('👤 User from getUser:', user);
 
     if (!user) {
+        console.log('❌ No user, redirecting to auth.html');
         // Rediriger vers login
         window.location.href = 'auth.html';
         return null;
     }
 
+    console.log('✅ User authenticated:', user.email, 'Role:', user.role);
+
     // Vérifier le rôle si spécifié
     if (requiredRole && user.role !== requiredRole && !['admin', 'super_admin'].includes(user.role)) {
+        console.log('⚠️ Wrong role, redirecting to correct dashboard');
         // Rediriger vers le bon dashboard
         redirectToDashboard(user.role);
         return null;
