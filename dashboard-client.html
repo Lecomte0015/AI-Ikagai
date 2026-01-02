@@ -432,15 +432,15 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item active" data-section="overview">
+                <a href="#" class="nav-item active" onclick="navigateToSection('overview'); return false;">
                     <span>📊</span>
                     <span>Vue d'ensemble</span>
                 </a>
-                <a href="#" class="nav-item" data-section="analyses">
+                <a href="#" class="nav-item" onclick="navigateToSection('analyses'); return false;">
                     <span>📈</span>
                     <span>Mes analyses</span>
                 </a>
-                <a href="#" class="nav-item" data-section="recommendations">
+                <a href="#" class="nav-item" onclick="navigateToSection('recommendations'); return false;">
                     <span>💡</span>
                     <span>Recommandations</span>
                 </a>
@@ -448,7 +448,7 @@
                     <span>⚙️</span>
                     <span>Paramètres</span>
                 </a>
-                <a href="#" class="nav-item" onclick="handleLogout()">
+                <a href="#" class="nav-item" onclick="handleLogout(); return false;">
                     <span>🚪</span>
                     <span>Déconnexion</span>
                 </a>
@@ -777,22 +777,22 @@
             }
         }
 
-        function setupNavigation() {
-            const navItems = document.querySelectorAll('.nav-item[data-section]');
+        function navigateToSection(sectionName) {
+            console.log('Navigating to:', sectionName);
 
-            navItems.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const section = item.dataset.section;
-
-                    // Mettre à jour l'item actif
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    item.classList.add('active');
-
-                    // Afficher la section
-                    showSection(section);
-                });
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
             });
+            event.target.closest('.nav-item').classList.add('active');
+
+            // Show section
+            showSection(sectionName);
+        }
+
+        function setupNavigation() {
+            // Navigation is now handled by onclick, this is just for compatibility
+            console.log('Navigation setup complete');
         }
 
         function showSection(sectionName) {
