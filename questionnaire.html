@@ -1613,8 +1613,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-client.js"></script>
     <script>
         /**
          * AI-IKIGAI - API Configuration & Client
@@ -1913,6 +1911,32 @@
         // Log de connexion
         console.log('🔌 AI-Ikigai API Client loaded');
         console.log(`📡 API URL: ${API_CONFIG.baseUrl}`);
+
+        // ============================================
+        // Supabase Client (inline pour éviter les conflits)
+        // ============================================
+        let supabaseClient = null;
+
+        // Charger Supabase dynamiquement
+        (async () => {
+            try {
+                // Charger le SDK Supabase
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+                script.onload = () => {
+                    // Initialiser Supabase
+                    const { createClient } = supabase;
+                    supabaseClient = createClient(
+                        'https://gtpkzfpvqlcwnvekcxhy.supabase.co',
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0cGt6ZnB2cWxjd252ZWtjeGh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyODI0MTAsImV4cCI6MjA4Mjg1ODQxMH0.Q4Y9iheI4EFAJhjH6MptiTodrypC8UIPIz4YN-rHksU'
+                    );
+                    console.log('✅ Supabase client initialized');
+                };
+                document.head.appendChild(script);
+            } catch (error) {
+                console.warn('⚠️ Could not load Supabase:', error);
+            }
+        })();
 
     </script>
     <script>
@@ -2684,17 +2708,18 @@
         async function submitToBackend() {
             try {
                 // Get authenticated user from Supabase
-                let currentUser = null;
                 let userId = null;
                 let userEmail = null;
 
-                if (typeof AuthAPI !== 'undefined') {
+                // Utiliser supabaseClient si disponible
+                if (supabaseClient) {
                     try {
-                        currentUser = await AuthAPI.getUser();
-                        if (currentUser) {
-                            userId = currentUser.id;
-                            userEmail = currentUser.email;
+                        const { data: { user }, error } = await supabaseClient.auth.getUser();
+                        if (user && !error) {
+                            userId = user.id;
+                            userEmail = user.email;
                             console.log('✅ User authenticated:', userEmail);
+                            console.log('🆔 User ID:', userId);
                         }
                     } catch (error) {
                         console.warn('⚠️ Could not get authenticated user:', error);
