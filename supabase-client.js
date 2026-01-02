@@ -8,7 +8,7 @@ const SUPABASE_CONFIG = {
 };
 
 // Initialiser le client Supabase (via CDN)
-const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+const supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
 
 // ============================================
 // AUTH API
@@ -17,7 +17,7 @@ const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONF
 const AuthAPI = {
     // Inscription
     async signUp(email, password, name) {
-        const { data, error } = await supabase.auth.signUp({
+        const { data, error } = await supabaseClient.auth.signUp({
             email,
             password,
             options: {
@@ -31,7 +31,7 @@ const AuthAPI = {
 
     // Connexion
     async signIn(email, password) {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
             email,
             password
         });
@@ -42,7 +42,7 @@ const AuthAPI = {
 
     // Déconnexion
     async signOut() {
-        const { error } = await supabase.auth.signOut();
+        const { error } = await supabaseClient.auth.signOut();
         if (error) throw error;
 
         // Rediriger vers la page d'accueil
@@ -51,7 +51,7 @@ const AuthAPI = {
 
     // Utilisateur actuel
     async getUser() {
-        const { data: { user }, error } = await supabase.auth.getUser();
+        const { data: { user }, error } = await supabaseClient.auth.getUser();
 
         if (error || !user) return null;
 
@@ -67,7 +67,7 @@ const AuthAPI = {
 
     // Session actuelle
     async getSession() {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await supabaseClient.auth.getSession();
         return session;
     },
 
@@ -218,7 +218,7 @@ function showSuccess(message) {
 }
 
 // Exporter pour utilisation globale
-window.supabase = supabase;
+window.supabaseClient = supabaseClient;
 window.AuthAPI = AuthAPI;
 window.DashboardAPI = DashboardAPI;
 window.checkAuth = checkAuth;
