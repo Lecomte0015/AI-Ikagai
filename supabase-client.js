@@ -69,12 +69,31 @@ const AuthAPI = {
 
             console.log('✅ User found:', user.email);
 
-            // Ajouter un rôle par défaut sans appeler la table profiles
+            // Essayer de récupérer le profil depuis la table profiles
+            let profileData = null;
+            try {
+                const { data, error: profileError } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single();
+
+                if (!profileError && data) {
+                    profileData = data;
+                    console.log('✅ Profile fetched from database:', profileData);
+                } else {
+                    console.warn('⚠️ Could not fetch profile:', profileError);
+                }
+            } catch (profileError) {
+                console.warn('⚠️ Profile fetch failed:', profileError);
+            }
+
+            // Construire l'objet utilisateur avec fallback
             const userWithRole = {
                 ...user,
                 email: user.email,
-                name: user.user_metadata?.name || user.email?.split('@')[0],
-                role: 'client' // Rôle par défaut
+                name: profileData?.name || user.user_metadata?.name || user.email?.split('@')[0],
+                role: profileData?.role || 'client' // Utiliser le rôle de la DB ou 'client' par défaut
             };
 
             console.log('Final user object:', userWithRole);
