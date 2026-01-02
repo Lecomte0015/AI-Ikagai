@@ -17,7 +17,7 @@
     <!-- Chart.js pour les graphiques -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
     <style>
         /* Styles spécifiques au dashboard */
         .dashboard-layout {
@@ -44,18 +44,22 @@
         }
 
         .sidebar-header .logo {
-            display: block;
-            margin-bottom: 1.5rem;
-            text-decoration: none;
+            display: block !important;
+            margin-bottom: 1.5rem !important;
+            text-decoration: none !important;
+            text-align: left !important;
         }
 
         .sidebar-header .logo span {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-family: 'Sora', sans-serif !important;
+            font-size: 1.5rem !important;
+            font-weight: 700 !important;
+            background: var(--gradient-text) !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            color: transparent !important;
+            display: inline-block !important;
         }
 
         .user-info {
@@ -346,7 +350,7 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <a href="/" class="logo">
+                <a href="index.html" class="logo">
                     <span>AI-Ikigai</span>
                 </a>
                 <div class="user-info">
