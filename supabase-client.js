@@ -52,35 +52,38 @@ const AuthAPI = {
     // Utilisateur actuel
     async getUser() {
         console.log('📞 getUser() called');
-        const { data: { user }, error } = await supabaseClient.auth.getUser();
-        console.log('Auth response:', { user: user?.email, error });
 
-        if (error || !user) {
-            console.log('❌ getUser returning null');
+        try {
+            const { data: { user }, error } = await supabaseClient.auth.getUser();
+            console.log('Auth response:', { user: user?.email, error });
+
+            if (error) {
+                console.error('Auth error:', error);
+                return null;
+            }
+
+            if (!user) {
+                console.log('❌ No user found');
+                return null;
+            }
+
+            console.log('✅ User found:', user.email);
+
+            // Ajouter un rôle par défaut sans appeler la table profiles
+            const userWithRole = {
+                ...user,
+                email: user.email,
+                name: user.user_metadata?.name || user.email?.split('@')[0],
+                role: 'client' // Rôle par défaut
+            };
+
+            console.log('Final user object:', userWithRole);
+            return userWithRole;
+
+        } catch (error) {
+            console.error('getUser error:', error);
             return null;
         }
-
-        console.log('✅ User found:', user.email);
-
-        // Récupérer le profil avec le rôle (optionnel)
-        let profile = null;
-        try {
-            const { data } = await supabaseClient
-                .from('profiles')
-                .select('*')
-                .eq('id', user.id)
-                .single();
-            profile = data;
-            console.log('Profile fetched:', profile);
-        } catch (error) {
-            console.warn('Could not fetch profile, using default role:', error);
-            // Si pas de profil, on utilise un rôle par défaut
-            profile = { role: 'client' };
-        }
-
-        const finalUser = { ...user, ...profile };
-        console.log('Final user object:', finalUser);
-        return finalUser;
     },
 
     // Session actuelle
