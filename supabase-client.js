@@ -51,9 +51,16 @@ const AuthAPI = {
 
     // Utilisateur actuel
     async getUser() {
+        console.log('📞 getUser() called');
         const { data: { user }, error } = await supabaseClient.auth.getUser();
+        console.log('Auth response:', { user: user?.email, error });
 
-        if (error || !user) return null;
+        if (error || !user) {
+            console.log('❌ getUser returning null');
+            return null;
+        }
+
+        console.log('✅ User found:', user.email);
 
         // Récupérer le profil avec le rôle (optionnel)
         let profile = null;
@@ -64,13 +71,16 @@ const AuthAPI = {
                 .eq('id', user.id)
                 .single();
             profile = data;
+            console.log('Profile fetched:', profile);
         } catch (error) {
             console.warn('Could not fetch profile, using default role:', error);
             // Si pas de profil, on utilise un rôle par défaut
             profile = { role: 'client' };
         }
 
-        return { ...user, ...profile };
+        const finalUser = { ...user, ...profile };
+        console.log('Final user object:', finalUser);
+        return finalUser;
     },
 
     // Session actuelle
