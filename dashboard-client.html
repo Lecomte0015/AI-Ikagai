@@ -355,6 +355,35 @@
             opacity: 0.3;
         }
 
+        /* Dashboard Sections */
+        .dashboard-section {
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .dashboard-section.hidden {
+            display: none;
+            opacity: 0;
+        }
+
+        .dashboard-section.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         @media (max-width: 1024px) {
             .dashboard-grid {
                 grid-template-columns: 1fr;
@@ -428,69 +457,113 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="top-bar">
-                <h1>Bienvenue sur votre Dashboard</h1>
-                <button class="btn-new-analysis" onclick="window.location.href='questionnaire.html'">
-                    ➕ Nouvelle Analyse
-                </button>
-            </div>
+            <!-- Section: Vue d'ensemble -->
+            <div id="section-overview" class="dashboard-section active">
+                <div class="top-bar">
+                    <h1>Bienvenue sur votre Dashboard</h1>
+                    <button class="btn-new-analysis" onclick="window.location.href='questionnaire.html'">
+                        ➕ Nouvelle Analyse
+                    </button>
+                </div>
 
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Analyses réalisées</div>
-                    <div class="stat-value" id="total-analyses">0</div>
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Analyses réalisées</div>
+                        <div class="stat-value" id="total-analyses">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Score Passion</div>
+                        <div class="stat-value" id="score-passion">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Score Mission</div>
+                        <div class="stat-value" id="score-mission">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Score Vocation</div>
+                        <div class="stat-value" id="score-vocation">-</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">Score Passion</div>
-                    <div class="stat-value" id="score-passion">-</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Score Mission</div>
-                    <div class="stat-value" id="score-mission">-</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Score Vocation</div>
-                    <div class="stat-value" id="score-vocation">-</div>
-                </div>
-            </div>
 
-            <!-- Dashboard Grid -->
-            <div class="dashboard-grid">
-                <!-- Ikigai Chart -->
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid">
+                    <!-- Ikigai Chart -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Votre Profil Ikigai</h2>
+                        </div>
+                        <div class="ikigai-chart-container">
+                            <canvas id="ikigai-chart"></canvas>
+                        </div>
+                        <div id="ikigai-insights"></div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Recommandations</h2>
+                        </div>
+                        <div class="recommendations-list" id="recommendations-list">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">💼</div>
+                                <p>Complétez une analyse pour voir vos recommandations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History -->
                 <div class="card">
                     <div class="card-header">
-                        <h2>Votre Profil Ikigai</h2>
+                        <h2>Historique des analyses</h2>
                     </div>
-                    <div class="ikigai-chart-container">
-                        <canvas id="ikigai-chart"></canvas>
-                    </div>
-                    <div id="ikigai-insights"></div>
-                </div>
-
-                <!-- Recommendations -->
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Recommandations</h2>
-                    </div>
-                    <div class="recommendations-list" id="recommendations-list">
+                    <div class="history-list" id="history-list">
                         <div class="empty-state">
-                            <div class="empty-state-icon">💼</div>
-                            <p>Complétez une analyse pour voir vos recommandations</p>
+                            <div class="empty-state-icon">📋</div>
+                            <p>Aucune analyse pour le moment</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- History -->
-            <div class="card">
-                <div class="card-header">
-                    <h2>Historique des analyses</h2>
+            <!-- Section: Mes Analyses -->
+            <div id="section-analyses" class="dashboard-section hidden">
+                <div class="top-bar">
+                    <h1>Mes Analyses</h1>
+                    <button class="btn-new-analysis" onclick="window.location.href='questionnaire.html'">
+                        ➕ Nouvelle Analyse
+                    </button>
                 </div>
-                <div class="history-list" id="history-list">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📋</div>
-                        <p>Aucune analyse pour le moment</p>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Toutes vos analyses Ikigai</h2>
+                    </div>
+                    <div class="history-list" id="all-analyses-list">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <p>Aucune analyse pour le moment. Commencez votre première analyse !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Recommandations -->
+            <div id="section-recommendations" class="dashboard-section hidden">
+                <div class="top-bar">
+                    <h1>Recommandations</h1>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Toutes vos recommandations</h2>
+                    </div>
+                    <div class="recommendations-list" id="all-recommendations-list">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">💡</div>
+                            <p>Complétez une analyse pour recevoir des recommandations personnalisées</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -716,11 +789,63 @@
                     navItems.forEach(nav => nav.classList.remove('active'));
                     item.classList.add('active');
 
-                    // Pour l'instant, juste un log
-                    // TODO: Implémenter l'affichage des différentes sections
-                    console.log('Navigation vers:', section);
+                    // Afficher la section
+                    showSection(section);
                 });
             });
+        }
+
+        function showSection(sectionName) {
+            // Cacher toutes les sections
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.classList.remove('active');
+                section.classList.add('hidden');
+            });
+
+            // Afficher la section sélectionnée
+            const targetSection = document.getElementById(`section-${sectionName}`);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                targetSection.classList.add('active');
+
+                // Charger les données spécifiques à la section
+                loadSectionData(sectionName);
+            }
+        }
+
+        function loadSectionData(sectionName) {
+            switch (sectionName) {
+                case 'analyses':
+                    // Afficher toutes les analyses
+                    if (dashboardData && dashboardData.analyses) {
+                        displayHistory(dashboardData.analyses, 'all-analyses-list');
+                    }
+                    break;
+                case 'recommendations':
+                    // Afficher toutes les recommandations
+                    if (dashboardData && dashboardData.latestAnalysis && dashboardData.latestAnalysis.recommendations) {
+                        displayAllRecommendations(dashboardData.latestAnalysis.recommendations);
+                    }
+                    break;
+            }
+        }
+
+        function displayAllRecommendations(recommendations) {
+            const container = document.getElementById('all-recommendations-list');
+
+            if (!recommendations || recommendations.length === 0) {
+                return;
+            }
+
+            container.innerHTML = recommendations.map(rec => `
+                <div class="recommendation-item">
+                    <div class="recommendation-header">
+                        <div class="recommendation-title">${rec.title}</div>
+                        ${rec.matchScore ? `<div class="match-score">${rec.matchScore}%</div>` : ''}
+                    </div>
+                    <div class="recommendation-desc">${rec.description}</div>
+                </div>
+            `).join('');
         }
     </script>
 </body>
