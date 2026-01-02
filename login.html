@@ -381,7 +381,6 @@
             };
             window.location.href = dashboards[role] || 'dashboard-client.html';
         }
-        // Helper functions
         function showError(message) {
             const errorDiv = document.getElementById('error-message');
             errorDiv.textContent = message;
@@ -399,15 +398,6 @@
                 successDiv.style.display = 'none';
             }, 3000);
         }
-
-        // Vérifier si déjà connecté
-        (async () => {
-            const user = await AuthAPI.getUser();
-            if (user) {
-                // Rediriger vers le dashboard approprié
-                redirectToDashboard(user.role);
-            }
-        })();
 
         // Changer d'onglet
         function switchTab(tab) {
@@ -431,6 +421,15 @@
             document.getElementById('error-message').style.display = 'none';
             document.getElementById('success-message').style.display = 'none';
         }
+
+        // Vérifier si déjà connecté
+        (async () => {
+            const user = await AuthAPI.getUser();
+            if (user) {
+                // Rediriger vers le dashboard approprié
+                redirectToDashboard(user.role);
+            }
+        })();
 
         // Gérer la connexion
         async function handleLogin(e) {
