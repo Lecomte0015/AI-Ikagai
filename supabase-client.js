@@ -46,7 +46,7 @@ const AuthAPI = {
         if (error) throw error;
 
         // Rediriger vers la page d'accueil
-        window.location.href = '/';
+        window.location.href = 'index.html';
     },
 
     // Utilisateur actuel
@@ -162,7 +162,7 @@ async function checkAuth(requiredRole = null) {
 
     if (!user) {
         // Rediriger vers login
-        window.location.href = '/login.html';
+        window.location.href = 'login.html';
         return null;
     }
 
@@ -178,13 +178,13 @@ async function checkAuth(requiredRole = null) {
 
 function redirectToDashboard(role) {
     const dashboards = {
-        'client': '/dashboard-client.html',
-        'coach': '/dashboard-coach.html',
-        'admin': '/dashboard-admin.html',
-        'super_admin': '/dashboard-admin.html'
+        'client': 'dashboard-client.html',
+        'coach': 'dashboard-coach.html',
+        'admin': 'dashboard-admin.html',
+        'super_admin': 'dashboard-admin.html'
     };
 
-    window.location.href = dashboards[role] || '/dashboard-client.html';
+    window.location.href = dashboards[role] || 'dashboard-client.html';
 }
 
 // ============================================
