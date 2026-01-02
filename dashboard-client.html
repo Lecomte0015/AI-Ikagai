@@ -664,13 +664,20 @@
         })();
 
         function displayUserInfo() {
+            if (!currentUser) {
+                console.error('No current user to display');
+                return;
+            }
+
             const initials = currentUser.name
                 ? currentUser.name.split(' ').map(n => n[0]).join('').toUpperCase()
                 : currentUser.email[0].toUpperCase();
 
             document.getElementById('user-avatar').textContent = initials;
-            document.getElementById('user-name').textContent = currentUser.name || 'Utilisateur';
+            document.getElementById('user-name').textContent = currentUser.name || currentUser.email.split('@')[0];
             document.getElementById('user-email').textContent = currentUser.email;
+
+            console.log('User info displayed:', currentUser.name || currentUser.email);
         }
 
         async function loadDashboardData() {
