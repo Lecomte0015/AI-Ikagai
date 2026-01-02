@@ -2601,14 +2601,14 @@
             const analyzingSection = document.getElementById('analyzing-section');
             const resultsSection = document.getElementById('results-section');
 
-            if (introSection) introSection.classList.remove('active');
-            if (questionsSection) questionsSection.classList.remove('active');
-            if (cvUploadSection) cvUploadSection.classList.remove('active');
+
             if (progressSection) progressSection.style.display = 'none';
-            if (analyzingSection) analyzingSection.classList.remove('active');
+            if (questionsContainer) questionsContainer.style.display = 'none';
+            if (cvUploadSection) cvUploadSection.style.display = 'none';
+            if (analyzingSection) analyzingSection.style.display = 'none';
 
             // Show only results section
-            if (resultsSection) resultsSection.classList.add('active');
+            if (resultsSection) resultsSection.style.display = 'block';
 
             // If we have backend analysis, update the displayed results
             if (backendAnalysis) {
