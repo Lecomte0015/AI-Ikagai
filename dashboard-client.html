@@ -587,16 +587,23 @@
                     </div>
                     <form onsubmit="handleUpdateProfile(event)">
                         <div class="form-group" style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Nom complet</label>
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--light);">Nom
+                                complet</label>
                             <input type="text" id="settings-name" placeholder="Jean Dupont"
                                 style="width: 100%; padding: 0.75rem; background: var(--dark); border: 1px solid var(--dark-border); border-radius: 8px; color: var(--light); font-family: 'Outfit', sans-serif;">
                         </div>
                         <div class="form-group" style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email</label>
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--light);">Email</label>
                             <input type="email" id="settings-email" disabled
                                 style="width: 100%; padding: 0.75rem; background: var(--dark); border: 1px solid var(--dark-border); border-radius: 8px; color: var(--light); font-family: 'Outfit', sans-serif; opacity: 0.6;">
                         </div>
-                        <button type="submit" class="btn-primary">Enregistrer les modifications</button>
+                        <button type="submit" class="btn-primary"
+                            style="background: var(--gradient-primary); color: white; padding: 0.75rem 1.5rem; border-radius: 50px; border: none; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(139, 92, 246, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">Enregistrer
+                            les modifications</button>
                     </form>
                 </div>
 
@@ -606,18 +613,24 @@
                     </div>
                     <form onsubmit="handleUpdatePassword(event)">
                         <div class="form-group" style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Nouveau mot de
-                                passe</label>
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--light);">Nouveau
+                                mot de passe</label>
                             <input type="password" id="settings-new-password" placeholder="••••••••" minlength="6"
                                 style="width: 100%; padding: 0.75rem; background: var(--dark); border: 1px solid var(--dark-border); border-radius: 8px; color: var(--light); font-family: 'Outfit', sans-serif;">
                         </div>
                         <div class="form-group" style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Confirmer le mot de
-                                passe</label>
+                            <label
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--light);">Confirmer
+                                le mot de passe</label>
                             <input type="password" id="settings-confirm-password" placeholder="••••••••" minlength="6"
                                 style="width: 100%; padding: 0.75rem; background: var(--dark); border: 1px solid var(--dark-border); border-radius: 8px; color: var(--light); font-family: 'Outfit', sans-serif;">
                         </div>
-                        <button type="submit" class="btn-primary">Mettre à jour le mot de passe</button>
+                        <button type="submit" class="btn-primary"
+                            style="background: var(--gradient-primary); color: white; padding: 0.75rem 1.5rem; border-radius: 50px; border: none; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(139, 92, 246, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">Mettre à jour
+                            le mot de passe</button>
                     </form>
                 </div>
 
