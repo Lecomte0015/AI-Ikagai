@@ -182,9 +182,8 @@ async function checkAuth(requiredRole = null) {
 
     if (!user) {
         console.log('❌ No user, redirecting to auth.html');
-        // TEMPORAIRE: Désactivé pour déboguer
-        // window.location.href = 'auth.html';
-        alert('Pas d\'utilisateur connecté ! Vérifiez la console.');
+        // Rediriger vers login
+        window.location.href = 'auth.html';
         return null;
     }
 
