@@ -2594,15 +2594,22 @@
 
         // Show Results
         function showResults(backendAnalysis = null) {
-            // Hide all questionnaire sections
-            introSection.classList.remove('active');
-            questionsSection.classList.remove('active');
-            cvUploadSection.classList.remove('active');
-            progressSection.style.display = 'none';
-            analyzingSection.classList.remove('active');
+            // Hide all questionnaire sections using querySelector
+            const introSection = document.querySelector('.intro-section');
+            const questionsSection = document.querySelector('.questions-section');
+            const cvUploadSection = document.querySelector('.cv-upload-section');
+            const progressSection = document.querySelector('.progress-section');
+            const analyzingSection = document.querySelector('.analyzing-section');
+            const resultsSection = document.querySelector('.results-section');
+
+            if (introSection) introSection.classList.remove('active');
+            if (questionsSection) questionsSection.classList.remove('active');
+            if (cvUploadSection) cvUploadSection.classList.remove('active');
+            if (progressSection) progressSection.style.display = 'none';
+            if (analyzingSection) analyzingSection.classList.remove('active');
 
             // Show only results section
-            resultsSection.classList.add('active');
+            if (resultsSection) resultsSection.classList.add('active');
 
             // If we have backend analysis, update the displayed results
             if (backendAnalysis) {
