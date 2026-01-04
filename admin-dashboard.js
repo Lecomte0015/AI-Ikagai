@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Vérifier l'authentification et le rôle admin
     if (typeof ApiClient !== 'undefined' && !await checkAdminAccess()) {
         console.log('Not authorized as admin, redirecting...');
-        window.location.href = '/login.html?error=unauthorized';
+        window.location.href = 'admin-login.html?error=unauthorized';
         return;
     }
 
