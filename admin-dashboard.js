@@ -606,7 +606,28 @@ function exportUsers() {
 }
 
 function viewUser(userId) {
-    alert(`👁️ Voir l'utilisateur ${userId}`);
+    // Trouver l'utilisateur dans les données
+    const user = AdminDashboard.data.users.find(u => u.id === userId);
+    if (!user) {
+        alert('Utilisateur non trouvé');
+        return;
+    }
+
+    // Remplir le formulaire de la modal
+    document.getElementById('viewUserId').value = user.id || '';
+    document.getElementById('viewUserEmail').value = user.email || '';
+    document.getElementById('viewUserName').value = user.name || '';
+    document.getElementById('viewUserRole').value = user.role === 'admin' ? 'Administrateur' : 'Client';
+    document.getElementById('viewUserAnalyses').value = user.analysesCount || 0;
+    document.getElementById('viewUserDate').value = formatDate(user.createdAt);
+    document.getElementById('viewUserStatus').value = user.status === 'active' ? 'Actif' : user.status;
+
+    // Afficher la modal
+    document.getElementById('viewUserModal').classList.add('active');
+}
+
+function closeViewUserModal() {
+    document.getElementById('viewUserModal').classList.remove('active');
 }
 
 // Variable globale pour stocker l'utilisateur en cours d'édition
@@ -1654,5 +1675,6 @@ window.reportAnomaly = reportAnomaly;
 window.logoutAdmin = logoutAdmin;
 window.closeEditUserModal = closeEditUserModal;
 window.saveUserChanges = saveUserChanges;
+window.closeViewUserModal = closeViewUserModal;
 
 console.log('✅ Admin Dashboard JS loaded successfully');
