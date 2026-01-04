@@ -609,6 +609,9 @@ function viewUser(userId) {
     alert(`👁️ Voir l'utilisateur ${userId}`);
 }
 
+// Variable globale pour stocker l'utilisateur en cours d'édition
+let currentEditingUser = null;
+
 async function editUser(userId) {
     // Trouver l'utilisateur dans les données
     const user = AdminDashboard.data.users.find(u => u.id === userId);
@@ -617,9 +620,36 @@ async function editUser(userId) {
         return;
     }
 
-    const action = confirm(`Voulez-vous ${user.role === 'admin' ? 'retirer' : 'donner'} les droits admin à ${user.email} ?`);
+    // Stocker l'utilisateur en cours d'édition
+    currentEditingUser = user;
 
-    if (!action) return;
+    // Remplir le formulaire de la modal
+    document.getElementById('editUserEmail').value = user.email || '';
+    document.getElementById('editUserName').value = user.name || '';
+    document.getElementById('editUserDate').value = formatDate(user.createdAt);
+    document.getElementById('editUserRole').value = user.role === 'admin' ? 'admin' : 'client';
+
+    // Afficher la modal
+    document.getElementById('editUserModal').classList.add('active');
+}
+
+function closeEditUserModal() {
+    document.getElementById('editUserModal').classList.remove('active');
+    currentEditingUser = null;
+}
+
+async function saveUserChanges() {
+    if (!currentEditingUser) return;
+
+    const newRole = document.getElementById('editUserRole').value;
+    const isAdmin = newRole === 'admin';
+
+    // Si le rôle n'a pas changé, fermer la modal
+    if ((currentEditingUser.role === 'admin' && isAdmin) ||
+        (currentEditingUser.role !== 'admin' && !isAdmin)) {
+        closeEditUserModal();
+        return;
+    }
 
     try {
         // Récupérer le token admin
@@ -636,8 +666,8 @@ async function editUser(userId) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                userId: userId,
-                isAdmin: user.role !== 'admin'
+                userId: currentEditingUser.id,
+                isAdmin: isAdmin
             })
         });
 
@@ -647,6 +677,9 @@ async function editUser(userId) {
 
         alert('✅ Rôle modifié avec succès !');
 
+        // Fermer la modal
+        closeEditUserModal();
+
         // Recharger les données
         await loadUsersData();
 
@@ -655,6 +688,7 @@ async function editUser(userId) {
         alert('❌ Erreur lors de la modification du rôle');
     }
 }
+
 
 function deleteUser(userId) {
     if (confirm('⚠️ Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
@@ -1603,5 +1637,7 @@ window.whiteLabel = whiteLabel;
 window.viewAnalysis = viewAnalysis;
 window.reportAnomaly = reportAnomaly;
 window.logoutAdmin = logoutAdmin;
+window.closeEditUserModal = closeEditUserModal;
+window.saveUserChanges = saveUserChanges;
 
 console.log('✅ Admin Dashboard JS loaded successfully');
