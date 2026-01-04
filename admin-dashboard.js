@@ -726,9 +726,53 @@ async function saveUserChanges() {
 }
 
 
-function deleteUser(userId) {
-    if (confirm('⚠️ Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
-        alert(`🗑️ Suppression de l'utilisateur ${userId}`);
+async function deleteUser(userId) {
+    // Trouver l'utilisateur
+    const user = AdminDashboard.data.users.find(u => u.id === userId);
+    if (!user) {
+        alert('Utilisateur non trouvé');
+        return;
+    }
+
+    // Double confirmation pour éviter les suppressions accidentelles
+    const confirmFirst = confirm(`⚠️ ATTENTION : Voulez-vous vraiment supprimer l'utilisateur ${user.email} ?\n\nCette action est IRRÉVERSIBLE !`);
+    if (!confirmFirst) return;
+
+    const confirmSecond = confirm(`🚨 DERNIÈRE CONFIRMATION\n\nÊtes-vous absolument sûr de vouloir supprimer ${user.email} ?\n\nToutes ses données seront perdues définitivement.`);
+    if (!confirmSecond) return;
+
+    try {
+        console.log('🗑️ Suppression utilisateur:', userId);
+
+        // Récupérer le token admin
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            throw new Error('Non authentifié');
+        }
+
+        // Appeler l'API backend pour supprimer
+        const response = await fetch('https://ai-ikagai.dallyhermann-71e.workers.dev/api/admin/users/delete', {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${session.access_token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Erreur ${response.status}: ${errorText}`);
+        }
+
+        alert('✅ Utilisateur supprimé avec succès');
+
+        // Recharger la liste
+        await loadUsersData();
+
+    } catch (error) {
+        console.error('❌ Erreur suppression:', error);
+        alert(`❌ Erreur: ${error.message}`);
     }
 }
 
