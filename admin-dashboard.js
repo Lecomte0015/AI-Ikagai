@@ -26,20 +26,20 @@ const AdminDashboard = {
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('🎯 Admin Dashboard initialization...');
-    
+
     // Vérifier l'authentification et le rôle admin
     if (typeof ApiClient !== 'undefined' && !await checkAdminAccess()) {
         console.log('Not authorized as admin, redirecting...');
         window.location.href = '/login.html?error=unauthorized';
         return;
     }
-    
+
     // Charger les données initiales
     await loadDashboardData();
-    
+
     // Initialiser la navigation
     initNavigation();
-    
+
     // Initialiser les événements
     initEventListeners();
 });
@@ -50,24 +50,36 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function checkAdminAccess() {
     try {
-        if (!ApiClient.isAuthenticated()) {
+        // Utiliser supabaseClient défini dans admin-dashboard.html
+        const { data: { user }, error } = await supabaseClient.auth.getUser();
+
+        if (error || !user) {
+            console.log('❌ Non authentifié');
+            window.location.href = 'admin-login.html?error=not_logged_in';
             return false;
         }
-        
-        const user = await AuthAPI.getCurrentUser();
+
+        // Vérifier le flag is_admin dans user_metadata
+        const isAdmin = user?.user_metadata?.is_admin === true;
+
+        if (!isAdmin) {
+            console.log('❌ Pas admin:', user.email);
+            await supabaseClient.auth.signOut();
+            window.location.href = 'admin-login.html?error=unauthorized';
+            return false;
+        }
+
+        // Stocker l'utilisateur
         AdminDashboard.currentUser = user;
-        
-        // Vérifier le rôle admin
-        if (!['admin', 'super_admin', 'readonly_admin'].includes(user.role)) {
-            return false;
-        }
-        
+
         // Mettre à jour l'interface avec les infos utilisateur
         updateUserProfile(user);
-        
+
+        console.log('✅ Admin vérifié:', user.email);
         return true;
     } catch (error) {
         console.error('Error checking admin access:', error);
+        window.location.href = 'admin-login.html?error=error';
         return false;
     }
 }
@@ -76,7 +88,7 @@ function updateUserProfile(user) {
     const userName = document.querySelector('.user-name');
     const userRole = document.querySelector('.user-role');
     const userAvatar = document.querySelector('.user-avatar');
-    
+
     if (userName) userName.textContent = user.name || user.email;
     if (userRole) {
         const roleLabels = {
@@ -104,7 +116,7 @@ function updateUserProfile(user) {
 async function loadDashboardData() {
     try {
         showLoadingState();
-        
+
         // Charger les données selon la section
         switch (AdminDashboard.currentSection) {
             case 'overview':
@@ -139,7 +151,7 @@ async function loadDashboardData() {
             default:
                 console.log('Section not implemented:', AdminDashboard.currentSection);
         }
-        
+
         hideLoadingState();
     } catch (error) {
         console.error('Error loading dashboard data:', error);
@@ -190,7 +202,7 @@ async function fetchWithFallback(url, fallbackData) {
 
 function initNavigation() {
     const navItems = document.querySelectorAll('.nav-item');
-    
+
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
@@ -205,7 +217,7 @@ function initNavigation() {
 function navigateToSection(sectionId) {
     // Mettre à jour l'état
     AdminDashboard.currentSection = sectionId;
-    
+
     // Mettre à jour la navigation active
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
@@ -214,15 +226,15 @@ function navigateToSection(sectionId) {
     if (activeItem) {
         activeItem.classList.add('active');
     }
-    
+
     // Mettre à jour le titre de la page
     updatePageTitle(sectionId);
-    
+
     // Masquer toutes les sections
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
     });
-    
+
     // Afficher la section demandée
     let targetSection = document.getElementById(`section-${sectionId}`);
     if (!targetSection) {
@@ -230,10 +242,10 @@ function navigateToSection(sectionId) {
         targetSection = createSection(sectionId);
     }
     targetSection.classList.add('active');
-    
+
     // Charger les données de la section
     loadDashboardData();
-    
+
     // Scroll to top
     window.scrollTo(0, 0);
 }
@@ -254,7 +266,7 @@ function updatePageTitle(sectionId) {
         'settings': 'Paramètres',
         'roles': 'Rôles & Permissions'
     };
-    
+
     const pageTitle = document.getElementById('pageTitle');
     if (pageTitle) {
         pageTitle.textContent = titles[sectionId] || 'Admin Dashboard';
@@ -285,7 +297,7 @@ function updateOverviewStats(stats) {
 function renderUsersSection(users) {
     const section = document.getElementById('section-users');
     if (!section) return;
-    
+
     section.innerHTML = `
         <div class="card">
             <div class="card-header">
@@ -351,7 +363,7 @@ function renderUsersSection(users) {
 function renderCoachesSection(coaches) {
     const section = document.getElementById('section-coaches');
     if (!section) return;
-    
+
     section.innerHTML = `
         <div class="card">
             <div class="card-header">
@@ -398,7 +410,7 @@ function renderCoachesSection(coaches) {
 function renderAnalysesSection(analyses) {
     const section = document.getElementById('section-ikigai-analyses');
     if (!section) return;
-    
+
     section.innerHTML = `
         <div class="card">
             <div class="card-header">
@@ -481,7 +493,7 @@ function formatDate(dateString) {
 function animateValue(elementId, start, end, duration, suffix = '') {
     const element = document.getElementById(elementId);
     if (!element) return;
-    
+
     const range = end - start;
     const increment = end > start ? 1 : -1;
     const stepTime = Math.abs(Math.floor(duration / range));
@@ -569,16 +581,16 @@ function initEventListeners() {
     if (globalSearch) {
         globalSearch.addEventListener('input', debounce(handleGlobalSearch, 300));
     }
-    
+
     // Fermer la sidebar en cliquant dehors sur mobile
     document.addEventListener('click', (e) => {
         const sidebar = document.getElementById('sidebar');
         const menuBtn = document.querySelector('.mobile-menu-btn');
-        
-        if (window.innerWidth <= 1024 && 
-            sidebar && 
-            sidebar.classList.contains('active') && 
-            !sidebar.contains(e.target) && 
+
+        if (window.innerWidth <= 1024 &&
+            sidebar &&
+            sidebar.classList.contains('active') &&
+            !sidebar.contains(e.target) &&
             !menuBtn.contains(e.target)) {
             sidebar.classList.remove('active');
         }
