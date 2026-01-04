@@ -161,15 +161,60 @@ async function loadDashboardData() {
 }
 
 async function loadOverviewData() {
-    // Charger les statistiques globales
-    const stats = await fetchWithFallback('/api/admin/stats', getDefaultStats());
-    updateOverviewStats(stats);
+    try {
+        // Récupérer le token d'authentification
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            throw new Error('No session');
+        }
+
+        const response = await fetch('https://ai-ikagai.dallyhermann-71e.workers.dev/api/admin/stats', {
+            headers: {
+                'Authorization': `Bearer ${session.access_token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch stats');
+        }
+
+        const stats = await response.json();
+        updateOverviewStats(stats);
+    } catch (error) {
+        console.error('Error loading stats:', error);
+        // Fallback vers données mock
+        updateOverviewStats(getDefaultStats());
+    }
 }
 
 async function loadUsersData() {
-    const users = await fetchWithFallback('/api/admin/users', getDefaultUsers());
-    AdminDashboard.data.users = users;
-    renderUsersSection(users);
+    try {
+        // Récupérer le token d'authentification
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            throw new Error('No session');
+        }
+
+        const response = await fetch('https://ai-ikagai.dallyhermann-71e.workers.dev/api/admin/users', {
+            headers: {
+                'Authorization': `Bearer ${session.access_token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch users');
+        }
+
+        const users = await response.json();
+        AdminDashboard.data.users = users;
+        renderUsersSection(users);
+    } catch (error) {
+        console.error('Error loading users:', error);
+        // Fallback vers données mock
+        const users = getDefaultUsers();
+        AdminDashboard.data.users = users;
+        renderUsersSection(users);
+    }
 }
 
 async function loadCoachesData() {
@@ -179,9 +224,33 @@ async function loadCoachesData() {
 }
 
 async function loadAnalysesData() {
-    const analyses = await fetchWithFallback('/api/admin/analyses', getDefaultAnalyses());
-    AdminDashboard.data.analyses = analyses;
-    renderAnalysesSection(analyses);
+    try {
+        // Récupérer le token d'authentification
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            throw new Error('No session');
+        }
+
+        const response = await fetch('https://ai-ikagai.dallyhermann-71e.workers.dev/api/admin/analyses', {
+            headers: {
+                'Authorization': `Bearer ${session.access_token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch analyses');
+        }
+
+        const analyses = await response.json();
+        AdminDashboard.data.analyses = analyses;
+        renderAnalysesSection(analyses);
+    } catch (error) {
+        console.error('Error loading analyses:', error);
+        // Fallback vers données mock
+        const analyses = getDefaultAnalyses();
+        AdminDashboard.data.analyses = analyses;
+        renderAnalysesSection(analyses);
+    }
 }
 
 // Helper pour fetch avec fallback
