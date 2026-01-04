@@ -639,6 +639,18 @@ function reportAnomaly(analysisId) {
     alert(`⚠️ Signaler une anomalie pour l'analyse ${analysisId}`);
 }
 
+async function logoutAdmin() {
+    if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+        try {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'admin-login.html';
+        } catch (error) {
+            console.error('Erreur lors de la déconnexion:', error);
+            alert('Erreur lors de la déconnexion');
+        }
+    }
+}
+
 // =============================================
 // Sidebar Mobile
 // =============================================
@@ -1547,5 +1559,6 @@ window.changePlan = changePlan;
 window.whiteLabel = whiteLabel;
 window.viewAnalysis = viewAnalysis;
 window.reportAnomaly = reportAnomaly;
+window.logoutAdmin = logoutAdmin;
 
 console.log('✅ Admin Dashboard JS loaded successfully');
