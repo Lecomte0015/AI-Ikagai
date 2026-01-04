@@ -425,9 +425,9 @@ function renderUsersSection(users) {
                                 ${user.status}
                             </span></td>
                             <td>
-                                <button class="btn-icon" onclick="viewUser(${user.id})" title="Voir">👁️</button>
-                                <button class="btn-icon" onclick="editUser(${user.id})" title="Éditer">✏️</button>
-                                <button class="btn-icon" onclick="deleteUser(${user.id})" title="Supprimer">🗑️</button>
+                                <button class="btn-icon" onclick="viewUser('${user.id}')" title="Voir">👁️</button>
+                                <button class="btn-icon" onclick="editUser('${user.id}')" title="Éditer">✏️</button>
+                                <button class="btn-icon" onclick="deleteUser('${user.id}')" title="Supprimer">🗑️</button>
                             </td>
                         </tr>
                     `).join('')}
