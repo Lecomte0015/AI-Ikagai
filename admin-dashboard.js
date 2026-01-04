@@ -644,9 +644,18 @@ async function saveUserChanges() {
     const newRole = document.getElementById('editUserRole').value;
     const isAdmin = newRole === 'admin';
 
+    console.log('💾 Sauvegarde:', {
+        userId: currentEditingUser.id,
+        email: currentEditingUser.email,
+        oldRole: currentEditingUser.role,
+        newRole: newRole,
+        willBeAdmin: isAdmin
+    });
+
     // Si le rôle n'a pas changé, fermer la modal
     if ((currentEditingUser.role === 'admin' && isAdmin) ||
         (currentEditingUser.role !== 'admin' && !isAdmin)) {
+        console.log('⚠️ Aucun changement - fermeture modal');
         closeEditUserModal();
         return;
     }
@@ -657,6 +666,8 @@ async function saveUserChanges() {
         if (!session) {
             throw new Error('Non authentifié');
         }
+
+        console.log('📡 Envoi requête backend...');
 
         // Appeler l'API backend pour changer le rôle
         const response = await fetch('https://ai-ikagai.dallyhermann-71e.workers.dev/api/admin/users/toggle-admin', {
@@ -671,8 +682,12 @@ async function saveUserChanges() {
             })
         });
 
+        console.log('📥 Réponse:', response.status, response.statusText);
+
         if (!response.ok) {
-            throw new Error('Erreur lors de la modification');
+            const errorText = await response.text();
+            console.error('❌ Erreur backend:', errorText);
+            throw new Error(`Erreur ${response.status}: ${errorText}`);
         }
 
         alert('✅ Rôle modifié avec succès !');
