@@ -726,6 +726,9 @@ async function saveUserChanges() {
 }
 
 
+// Variable pour stocker l'utilisateur à supprimer
+let userToDelete = null;
+
 async function deleteUser(userId) {
     // Trouver l'utilisateur
     const user = AdminDashboard.data.users.find(u => u.id === userId);
@@ -734,15 +737,36 @@ async function deleteUser(userId) {
         return;
     }
 
-    // Double confirmation pour éviter les suppressions accidentelles
-    const confirmFirst = confirm(`⚠️ ATTENTION : Voulez-vous vraiment supprimer l'utilisateur ${user.email} ?\n\nCette action est IRRÉVERSIBLE !`);
-    if (!confirmFirst) return;
+    // Stocker l'utilisateur
+    userToDelete = user;
 
-    const confirmSecond = confirm(`🚨 DERNIÈRE CONFIRMATION\n\nÊtes-vous absolument sûr de vouloir supprimer ${user.email} ?\n\nToutes ses données seront perdues définitivement.`);
-    if (!confirmSecond) return;
+    // Remplir la modal
+    document.getElementById('deleteUserEmail').value = user.email;
+    document.getElementById('deleteUserAnalyses').value = `${user.analysesCount || 0} analyse(s)`;
+    document.getElementById('deleteConfirmInput').value = '';
+
+    // Afficher la modal
+    document.getElementById('deleteUserModal').classList.add('active');
+}
+
+function closeDeleteUserModal() {
+    document.getElementById('deleteUserModal').classList.remove('active');
+    document.getElementById('deleteConfirmInput').value = '';
+    userToDelete = null;
+}
+
+async function confirmDeleteUser() {
+    if (!userToDelete) return;
+
+    // Vérifier que l'utilisateur a tapé "SUPPRIMER"
+    const confirmInput = document.getElementById('deleteConfirmInput').value;
+    if (confirmInput !== 'SUPPRIMER') {
+        alert('❌ Vous devez taper exactement "SUPPRIMER" pour confirmer');
+        return;
+    }
 
     try {
-        console.log('🗑️ Suppression utilisateur:', userId);
+        console.log('🗑️ Suppression utilisateur:', userToDelete.id);
 
         // Récupérer le token admin
         const { data: { session } } = await supabaseClient.auth.getSession();
@@ -757,7 +781,7 @@ async function deleteUser(userId) {
                 'Authorization': `Bearer ${session.access_token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ userId })
+            body: JSON.stringify({ userId: userToDelete.id })
         });
 
         if (!response.ok) {
@@ -767,6 +791,9 @@ async function deleteUser(userId) {
 
         alert('✅ Utilisateur supprimé avec succès');
 
+        // Fermer la modal
+        closeDeleteUserModal();
+
         // Recharger la liste
         await loadUsersData();
 
@@ -775,6 +802,7 @@ async function deleteUser(userId) {
         alert(`❌ Erreur: ${error.message}`);
     }
 }
+
 
 function manageCredits(coachId) {
     alert(`⚡ Gérer les crédits du coach ${coachId}`);
@@ -1720,5 +1748,7 @@ window.logoutAdmin = logoutAdmin;
 window.closeEditUserModal = closeEditUserModal;
 window.saveUserChanges = saveUserChanges;
 window.closeViewUserModal = closeViewUserModal;
+window.closeDeleteUserModal = closeDeleteUserModal;
+window.confirmDeleteUser = confirmDeleteUser;
 
 console.log('✅ Admin Dashboard JS loaded successfully');
