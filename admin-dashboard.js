@@ -136,8 +136,10 @@ async function loadDashboardData() {
                 await loadPricingData();
                 break;
             case 'analytics':
-            case 'revenue':
                 await loadAnalyticsData();
+                break;
+            case 'revenue':
+                await loadRevenueData();
                 break;
             case 'support':
                 await loadSupportData();
@@ -147,6 +149,12 @@ async function loadDashboardData() {
                 break;
             case 'audit':
                 await loadAuditData();
+                break;
+            case 'settings':
+                await loadSettingsData();
+                break;
+            case 'roles':
+                await loadRolesData();
                 break;
             default:
                 console.log('Section not implemented:', AdminDashboard.currentSection);
@@ -757,6 +765,770 @@ function getDefaultAnalyses() {
             hasError: true
         }
     ];
+}
+
+// =============================================
+// Nouvelles Sections - Load Functions
+// =============================================
+
+async function loadAnalyticsData() {
+    const data = getDefaultAnalytics();
+    renderAnalyticsSection(data);
+}
+
+async function loadPricingData() {
+    const section = AdminDashboard.currentSection;
+    if (section === 'pricing-b2c') {
+        const data = getDefaultPricingB2C();
+        renderPricingB2CSection(data);
+    } else if (section === 'pricing-coach') {
+        const data = getDefaultPricingCoach();
+        renderPricingCoachSection(data);
+    }
+}
+
+async function loadSupportData() {
+    const data = getDefaultSupport();
+    renderSupportSection(data);
+}
+
+async function loadGDPRData() {
+    const data = getDefaultGDPR();
+    renderGDPRSection(data);
+}
+
+async function loadAuditData() {
+    const data = getDefaultAudit();
+    renderAuditSection(data);
+}
+
+async function loadRevenueData() {
+    const data = getDefaultRevenue();
+    renderRevenueSection(data);
+}
+
+async function loadSettingsData() {
+    const data = getDefaultSettings();
+    renderSettingsSection(data);
+}
+
+async function loadRolesData() {
+    const data = getDefaultRoles();
+    renderRolesSection(data);
+}
+
+// =============================================
+// Nouvelles Sections - Render Functions
+// =============================================
+
+function renderAnalyticsSection(data) {
+    const section = document.getElementById('section-analytics');
+    if (!section) {
+        const newSection = createSection('analytics');
+        renderAnalyticsSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">📈</div>
+                    Analytique Business
+                </h2>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">${data.totalRevenue}€</div>
+                    <div class="stat-label">Revenus Totaux</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.mrr}€</div>
+                    <div class="stat-label">MRR</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.activeUsers}</div>
+                    <div class="stat-label">Utilisateurs Actifs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.churnRate}%</div>
+                    <div class="stat-label">Taux de Churn</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Top Fonctionnalités</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Fonctionnalité</th>
+                            <th>Utilisations</th>
+                            <th>Tendance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.topFeatures.map(feature => `
+                            <tr>
+                                <td>${feature.name}</td>
+                                <td>${feature.count}</td>
+                                <td><span class="trend-up">↑ ${feature.growth}%</span></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function renderPricingB2CSection(data) {
+    const section = document.getElementById('section-pricing-b2c');
+    if (!section) {
+        const newSection = createSection('pricing-b2c');
+        renderPricingB2CSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">💳</div>
+                    Tarification B2C
+                </h2>
+                <button class="btn-primary">Ajouter un Plan</button>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Plan</th>
+                        <th>Prix</th>
+                        <th>Analyses Incluses</th>
+                        <th>Fonctionnalités</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.plans.map(plan => `
+                        <tr>
+                            <td><strong>${plan.name}</strong></td>
+                            <td>${plan.price}€/mois</td>
+                            <td>${plan.analyses}</td>
+                            <td>${plan.features.join(', ')}</td>
+                            <td><span class="status-badge status-${plan.active ? 'active' : 'inactive'}">${plan.active ? 'Actif' : 'Inactif'}</span></td>
+                            <td>
+                                <button class="btn-icon" title="Éditer">✏️</button>
+                                <button class="btn-icon" title="Désactiver">🔒</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderPricingCoachSection(data) {
+    const section = document.getElementById('section-pricing-coach');
+    if (!section) {
+        const newSection = createSection('pricing-coach');
+        renderPricingCoachSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">💰</div>
+                    Tarification Coach
+                </h2>
+                <button class="btn-primary">Ajouter un Plan</button>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Plan</th>
+                        <th>Prix</th>
+                        <th>Crédits/mois</th>
+                        <th>Fonctionnalités</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.plans.map(plan => `
+                        <tr>
+                            <td><strong>${plan.name}</strong></td>
+                            <td>${plan.price}€/mois</td>
+                            <td>${plan.credits}</td>
+                            <td>${plan.features.join(', ')}</td>
+                            <td><span class="status-badge status-active">Actif</span></td>
+                            <td>
+                                <button class="btn-icon" title="Éditer">✏️</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderSupportSection(data) {
+    const section = document.getElementById('section-support');
+    if (!section) {
+        const newSection = createSection('support');
+        renderSupportSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">🎧</div>
+                    Support Client
+                </h2>
+            </div>
+            
+            <div class="filters-bar">
+                <select class="filter-select">
+                    <option value="all">Tous les statuts</option>
+                    <option value="open">Ouvert</option>
+                    <option value="in-progress">En cours</option>
+                    <option value="resolved">Résolu</option>
+                </select>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Utilisateur</th>
+                        <th>Sujet</th>
+                        <th>Priorité</th>
+                        <th>Statut</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.tickets.map(ticket => `
+                        <tr>
+                            <td>#${ticket.id}</td>
+                            <td>${ticket.user}</td>
+                            <td>${ticket.subject}</td>
+                            <td><span class="status-badge status-${ticket.priority === 'Haute' ? 'suspended' : 'pending'}">${ticket.priority}</span></td>
+                            <td><span class="status-badge status-${ticket.status === 'Ouvert' ? 'pending' : ticket.status === 'En cours' ? 'active' : 'inactive'}">${ticket.status}</span></td>
+                            <td>${formatDate(ticket.date)}</td>
+                            <td>
+                                <button class="btn-icon" title="Voir">👁️</button>
+                                <button class="btn-icon" title="Répondre">💬</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderGDPRSection(data) {
+    const section = document.getElementById('section-gdpr');
+    if (!section) {
+        const newSection = createSection('gdpr');
+        renderGDPRSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">🔒</div>
+                    GDPR - Conformité
+                </h2>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">${data.totalRequests}</div>
+                    <div class="stat-label">Demandes Totales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.pendingRequests}</div>
+                    <div class="stat-label">En Attente</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.processedRequests}</div>
+                    <div class="stat-label">Traitées</div>
+                </div>
+            </div>
+            
+            <table class="data-table" style="margin-top: 2rem;">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Utilisateur</th>
+                        <th>Date Demande</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.requests.map(request => `
+                        <tr>
+                            <td>${request.type}</td>
+                            <td>${request.user}</td>
+                            <td>${formatDate(request.date)}</td>
+                            <td><span class="status-badge status-${request.status === 'En attente' ? 'pending' : 'active'}">${request.status}</span></td>
+                            <td>
+                                <button class="btn-primary" style="padding: 0.5rem 1rem;">Traiter</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderAuditSection(data) {
+    const section = document.getElementById('section-audit');
+    if (!section) {
+        const newSection = createSection('audit');
+        renderAuditSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">📝</div>
+                    Logs d'Audit
+                </h2>
+            </div>
+            
+            <div class="filters-bar">
+                <select class="filter-select">
+                    <option value="all">Toutes les actions</option>
+                    <option value="create">Création</option>
+                    <option value="update">Modification</option>
+                    <option value="delete">Suppression</option>
+                </select>
+                <select class="filter-select">
+                    <option value="all">Tous les admins</option>
+                </select>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date/Heure</th>
+                        <th>Admin</th>
+                        <th>Action</th>
+                        <th>Cible</th>
+                        <th>IP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.logs.map(log => `
+                        <tr>
+                            <td>${formatDate(log.date)}</td>
+                            <td>${log.admin}</td>
+                            <td><span class="status-badge status-active">${log.action}</span></td>
+                            <td>${log.target}</td>
+                            <td>${log.ip}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderRevenueSection(data) {
+    const section = document.getElementById('section-revenue');
+    if (!section) {
+        const newSection = createSection('revenue');
+        renderRevenueSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">💵</div>
+                    Revenus
+                </h2>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">${data.totalRevenue}€</div>
+                    <div class="stat-label">Revenus Totaux</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.mrr}€</div>
+                    <div class="stat-label">MRR</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.thisMonth}€</div>
+                    <div class="stat-label">Ce Mois</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${data.growth}%</div>
+                    <div class="stat-label">Croissance</div>
+                </div>
+            </div>
+            
+            <table class="data-table" style="margin-top: 2rem;">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Client</th>
+                        <th>Montant</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.transactions.map(transaction => `
+                        <tr>
+                            <td>${formatDate(transaction.date)}</td>
+                            <td>${transaction.type}</td>
+                            <td>${transaction.client}</td>
+                            <td>${transaction.amount}€</td>
+                            <td><span class="status-badge status-active">Payé</span></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderSettingsSection(data) {
+    const section = document.getElementById('section-settings');
+    if (!section) {
+        const newSection = createSection('settings');
+        renderSettingsSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">⚙️</div>
+                    Paramètres
+                </h2>
+                <button class="btn-primary">Sauvegarder</button>
+            </div>
+            
+            <div style="max-width: 800px;">
+                <h3 style="margin-bottom: 1rem;">Configuration Générale</h3>
+                <div style="display: grid; gap: 1.5rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Nom de l'Application</label>
+                        <input type="text" value="${data.appName}" class="search-input" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email de Contact</label>
+                        <input type="email" value="${data.contactEmail}" class="search-input" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">URL du Site</label>
+                        <input type="url" value="${data.siteUrl}" class="search-input" style="width: 100%;">
+                    </div>
+                </div>
+                
+                <h3 style="margin: 2rem 0 1rem;">Intégrations</h3>
+                <div style="display: grid; gap: 1.5rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Clé API Stripe</label>
+                        <input type="password" value="${data.stripeKey}" class="search-input" style="width: 100%;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Clé API Claude</label>
+                        <input type="password" value="${data.claudeKey}" class="search-input" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderRolesSection(data) {
+    const section = document.getElementById('section-roles');
+    if (!section) {
+        const newSection = createSection('roles');
+        renderRolesSection(data);
+        return;
+    }
+
+    section.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <div class="card-icon">🔑</div>
+                    Rôles & Permissions
+                </h2>
+                <button class="btn-primary">Créer un Rôle</button>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Rôle</th>
+                        <th>Utilisateurs</th>
+                        <th>Permissions</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.roles.map(role => `
+                        <tr>
+                            <td><strong>${role.name}</strong></td>
+                            <td>${role.userCount}</td>
+                            <td>${role.permissions.join(', ')}</td>
+                            <td>
+                                <button class="btn-icon" title="Éditer">✏️</button>
+                                <button class="btn-icon" title="Supprimer">🗑️</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+// =============================================
+// Nouvelles Sections - Mock Data
+// =============================================
+
+function getDefaultAnalytics() {
+    return {
+        totalRevenue: 87400,
+        mrr: 12500,
+        activeUsers: 1247,
+        churnRate: 3.2,
+        topFeatures: [
+            { name: 'Analyse Ikigai', count: 3892, growth: 24 },
+            { name: 'Upload CV', count: 2156, growth: 18 },
+            { name: 'Dashboard', count: 1847, growth: 12 },
+            { name: 'Profil', count: 1234, growth: 8 }
+        ]
+    };
+}
+
+function getDefaultPricingB2C() {
+    return {
+        plans: [
+            {
+                name: 'Gratuit',
+                price: 0,
+                analyses: 1,
+                features: ['1 analyse', 'Résultats basiques'],
+                active: true
+            },
+            {
+                name: 'Premium',
+                price: 19,
+                analyses: 5,
+                features: ['5 analyses', 'Résultats détaillés', 'Support email'],
+                active: true
+            },
+            {
+                name: 'Pro',
+                price: 49,
+                analyses: 'Illimité',
+                features: ['Analyses illimitées', 'Résultats avancés', 'Support prioritaire'],
+                active: true
+            }
+        ]
+    };
+}
+
+function getDefaultPricingCoach() {
+    return {
+        plans: [
+            {
+                name: 'Starter',
+                price: 99,
+                credits: 50,
+                features: ['50 crédits/mois', 'Dashboard coach', 'Support email']
+            },
+            {
+                name: 'Pro',
+                price: 249,
+                credits: 150,
+                features: ['150 crédits/mois', 'Marque blanche', 'Support prioritaire']
+            },
+            {
+                name: 'Enterprise',
+                price: 499,
+                credits: 500,
+                features: ['500 crédits/mois', 'API access', 'Support dédié']
+            }
+        ]
+    };
+}
+
+function getDefaultSupport() {
+    return {
+        tickets: [
+            {
+                id: 1,
+                user: 'Marie Dupont',
+                subject: 'Problème de paiement',
+                priority: 'Haute',
+                status: 'Ouvert',
+                date: '2024-12-15T10:30:00Z'
+            },
+            {
+                id: 2,
+                user: 'Jean Martin',
+                subject: 'Question sur l\'analyse',
+                priority: 'Normale',
+                status: 'En cours',
+                date: '2024-12-14T14:20:00Z'
+            },
+            {
+                id: 3,
+                user: 'Sophie Bernard',
+                subject: 'Demande de remboursement',
+                priority: 'Haute',
+                status: 'Résolu',
+                date: '2024-12-13T09:15:00Z'
+            }
+        ]
+    };
+}
+
+function getDefaultGDPR() {
+    return {
+        totalRequests: 12,
+        pendingRequests: 3,
+        processedRequests: 9,
+        requests: [
+            {
+                type: 'Export de données',
+                user: 'user@example.com',
+                date: '2024-12-15T10:00:00Z',
+                status: 'En attente'
+            },
+            {
+                type: 'Suppression de compte',
+                user: 'autre@example.com',
+                date: '2024-12-14T15:30:00Z',
+                status: 'En attente'
+            },
+            {
+                type: 'Export de données',
+                user: 'test@example.com',
+                date: '2024-12-13T11:20:00Z',
+                status: 'Traité'
+            }
+        ]
+    };
+}
+
+function getDefaultAudit() {
+    return {
+        logs: [
+            {
+                date: '2024-12-15T10:30:00Z',
+                admin: 'admin@ai-ikigai.com',
+                action: 'Modification utilisateur',
+                target: 'user#1234',
+                ip: '192.168.1.1'
+            },
+            {
+                date: '2024-12-15T09:15:00Z',
+                admin: 'admin@ai-ikigai.com',
+                action: 'Création plan',
+                target: 'plan#premium',
+                ip: '192.168.1.1'
+            },
+            {
+                date: '2024-12-14T16:45:00Z',
+                admin: 'admin@ai-ikigai.com',
+                action: 'Suppression ticket',
+                target: 'ticket#567',
+                ip: '192.168.1.1'
+            }
+        ]
+    };
+}
+
+function getDefaultRevenue() {
+    return {
+        totalRevenue: 87400,
+        mrr: 12500,
+        thisMonth: 15800,
+        growth: 32,
+        transactions: [
+            {
+                date: '2024-12-15T10:00:00Z',
+                type: 'Abonnement Premium',
+                client: 'Marie Dupont',
+                amount: 19
+            },
+            {
+                date: '2024-12-14T15:30:00Z',
+                type: 'Abonnement Pro',
+                client: 'Jean Martin',
+                amount: 49
+            },
+            {
+                date: '2024-12-13T11:20:00Z',
+                type: 'Abonnement Coach Pro',
+                client: 'Sophie Bernard',
+                amount: 249
+            }
+        ]
+    };
+}
+
+function getDefaultSettings() {
+    return {
+        appName: 'AI-Ikigai',
+        contactEmail: 'contact@ai-ikigai.com',
+        siteUrl: 'https://ai-ikigai.com',
+        stripeKey: 'sk_test_*********************',
+        claudeKey: 'sk-ant-*********************'
+    };
+}
+
+function getDefaultRoles() {
+    return {
+        roles: [
+            {
+                name: 'Super Admin',
+                userCount: 1,
+                permissions: ['Tout', 'Gestion utilisateurs', 'Gestion revenus', 'Configuration']
+            },
+            {
+                name: 'Admin',
+                userCount: 3,
+                permissions: ['Gestion utilisateurs', 'Support', 'Analyses']
+            },
+            {
+                name: 'Support',
+                userCount: 5,
+                permissions: ['Support', 'Lecture analyses']
+            }
+        ]
+    };
 }
 
 // =============================================
