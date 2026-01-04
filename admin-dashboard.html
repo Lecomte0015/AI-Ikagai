@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Tableau de bord Admin - AI-Ikigai">
     <title>Admin Dashboard | AI-Ikigai</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         /* =============================================
            CSS Variables - Matching AI-Ikigai Design
@@ -749,7 +752,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Animations */
@@ -758,6 +763,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -769,6 +775,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Admin Layout -->
     <div class="admin-layout">
@@ -777,13 +784,14 @@
             <div class="sidebar-header">
                 <a href="/" class="logo">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="20" cy="20" r="18" stroke="url(#logoGradient)" stroke-width="2"/>
-                        <path d="M20 10 L20 30 M10 20 L30 20" stroke="url(#logoGradient)" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="20" cy="20" r="18" stroke="url(#logoGradient)" stroke-width="2" />
+                        <path d="M20 10 L20 30 M10 20 L30 20" stroke="url(#logoGradient)" stroke-width="2"
+                            stroke-linecap="round" />
                         <defs>
                             <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00d4ff"/>
-                                <stop offset="50%" style="stop-color:#8b5cf6"/>
-                                <stop offset="100%" style="stop-color:#ec4899"/>
+                                <stop offset="0%" style="stop-color:#00d4ff" />
+                                <stop offset="50%" style="stop-color:#8b5cf6" />
+                                <stop offset="100%" style="stop-color:#ec4899" />
                             </linearGradient>
                         </defs>
                     </svg>
@@ -979,7 +987,8 @@
                                 Actions Rapides
                             </h2>
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                             <button class="btn-primary" onclick="navigateToSection('users')">
                                 👥 Gérer les utilisateurs
                             </button>
@@ -1019,21 +1028,24 @@
                                     <td>Marie Dupont</td>
                                     <td>Analyse Ikigai complétée</td>
                                     <td>Il y a 5 min</td>
-                                    <td><span class="status-badge status-active"><span class="status-dot"></span> Succès</span></td>
+                                    <td><span class="status-badge status-active"><span class="status-dot"></span>
+                                            Succès</span></td>
                                 </tr>
                                 <tr>
                                     <td>💳</td>
                                     <td>Jean Martin</td>
                                     <td>Souscription Premium</td>
                                     <td>Il y a 12 min</td>
-                                    <td><span class="status-badge status-active"><span class="status-dot"></span> Succès</span></td>
+                                    <td><span class="status-badge status-active"><span class="status-dot"></span>
+                                            Succès</span></td>
                                 </tr>
                                 <tr>
                                     <td>🎓</td>
                                     <td>Sophie Bernard</td>
                                     <td>Nouveau client ajouté</td>
                                     <td>Il y a 18 min</td>
-                                    <td><span class="status-badge status-active"><span class="status-dot"></span> Succès</span></td>
+                                    <td><span class="status-badge status-active"><span class="status-dot"></span>
+                                            Succès</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1060,6 +1072,55 @@
 
     <!-- Scripts -->
     <script src="api.js"></script>
+
+    <!-- Protection Admin -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Configuration Supabase
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://gtpkzfpvqlcwnvekcxhy.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0cGt6ZnB2cWxjd252ZWtjeGh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcyODI0MTAsImV4cCI6MjA4Mjg1ODQxMH0.Q4Y9iheI4EFAJhjH6MptiTodrypC8UIPIz4YN-rHksU'
+        );
+
+        // Vérifier l'accès admin au chargement
+        async function checkAdminAccess() {
+            try {
+                const { data: { user }, error } = await supabaseClient.auth.getUser();
+
+                if (error || !user) {
+                    console.log('❌ Non connecté');
+                    window.location.href = 'admin-login.html?error=not_logged_in';
+                    return;
+                }
+
+                const isAdmin = user?.user_metadata?.is_admin === true;
+
+                if (!isAdmin) {
+                    console.log('❌ Pas admin:', user.email);
+                    await supabaseClient.auth.signOut();
+                    window.location.href = 'admin-login.html?error=unauthorized';
+                    return;
+                }
+
+                console.log('✅ Admin authentifié:', user.email);
+                // Mettre à jour le nom d'utilisateur dans le sidebar
+                const userName = document.querySelector('.user-name');
+                const userEmail = user.email;
+                if (userName) {
+                    userName.textContent = userEmail.split('@')[0];
+                }
+            } catch (err) {
+                console.error('Erreur vérification admin:', err);
+                window.location.href = 'admin-login.html?error=error';
+            }
+        }
+
+        // Vérifier immédiatement
+        checkAdminAccess();
+    </script>
+
     <script src="admin-dashboard.js"></script>
 </body>
+
 </html>
