@@ -609,8 +609,51 @@ function viewUser(userId) {
     alert(`👁️ Voir l'utilisateur ${userId}`);
 }
 
-function editUser(userId) {
-    alert(`✏️ Éditer l'utilisateur ${userId}`);
+async function editUser(userId) {
+    // Trouver l'utilisateur dans les données
+    const user = AdminDashboard.data.users.find(u => u.id === userId);
+    if (!user) {
+        alert('Utilisateur non trouvé');
+        return;
+    }
+
+    const action = confirm(`Voulez-vous ${user.role === 'admin' ? 'retirer' : 'donner'} les droits admin à ${user.email} ?`);
+
+    if (!action) return;
+
+    try {
+        // Récupérer le token admin
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            throw new Error('Non authentifié');
+        }
+
+        // Appeler l'API backend pour changer le rôle
+        const response = await fetch('https://ai-ikagai.dallyhermann-71e.workers.dev/api/admin/users/toggle-admin', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${session.access_token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: userId,
+                isAdmin: user.role !== 'admin'
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Erreur lors de la modification');
+        }
+
+        alert('✅ Rôle modifié avec succès !');
+
+        // Recharger les données
+        await loadUsersData();
+
+    } catch (error) {
+        console.error('Erreur:', error);
+        alert('❌ Erreur lors de la modification du rôle');
+    }
 }
 
 function deleteUser(userId) {
